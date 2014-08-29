@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://kg8m.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: ruby | My Octopress Blog]]></title>
+  <link href="http://kg8m.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://kg8m.github.io/"/>
   <updated>2014-08-29T12:31:17+09:00</updated>
   <id>http://kg8m.github.io/</id>
@@ -88,20 +88,13 @@
 
 <h3>Ruby コード</h3>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Hoge</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">hoge</span>
-</span><span class='line'>    <span class="nb">p</span> <span class="s2">&quot;ほげ&quot;</span>
-</span><span class='line'>    <span class="s2">&quot;あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<pre><code class="ruby">class Hoge
+  def hoge
+    p "ほげ"
+    "あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ"
+  end
+end
+</code></pre>
 
 <ul>
 <li><code>ほげ</code> という文字列を出力したあと、<code>あ</code> が連なった文字列を返します。</li>
