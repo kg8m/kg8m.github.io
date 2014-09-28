@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 読書 | きにきじ]]></title>
   <link href="http://kg8m.github.io/blog/categories/du-shu/atom.xml" rel="self"/>
   <link href="http://kg8m.github.io/"/>
-  <updated>2014-09-28T23:32:52+09:00</updated>
+  <updated>2014-09-28T23:55:45+09:00</updated>
   <id>http://kg8m.github.io/</id>
   <author>
     <name><![CDATA[kg8m]]></name>
@@ -15,7 +15,7 @@
   
   <entry>
     <title type="html"><![CDATA[『パーフェクト Ruby on Rails』を読んだ]]></title>
-    <link href="http://kg8m.github.io/blog/2014/09/28/read-perfect-ruby-on-rails"/>
+    <link href="http://kg8m.github.io/blog/2014/09/28/read-perfect-ruby-on-rails/"/>
     <updated>2014-09-28T20:00:00+09:00</updated>
     <id>http://kg8m.github.io/blog/2014/09/28/read-perfect-ruby-on-rails</id>
     <content type="html"><![CDATA[<p>『<a href="http://www.amazon.co.jp/o/ASIN/4774165166/kgtk-22/">パーフェクト Ruby on Rails（すがわらまさのり、前島真一、近藤宇智朗、橋立友宏）</a>』を読みました。「Rails 開発に慣れてきたかな」くらいの人にちょうどいい内容だったと思います。それくらいレベルの人が少し上を目指したり、より Rails らしい設計や開発の仕方を学んだりするのにいい書籍だと思いました。Ruby 2 や Rails 4 向けの説明になっているので、新しめの情報を得たいような場合にもお薦めです。逆に、最新の Ruby や Rails でバリバリ開発しているような人には既知のことばかりで物足りないんじゃないかなという印象です。</p>
