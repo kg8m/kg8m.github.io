@@ -3,25 +3,36 @@
   
   
   <url>
-    <loc>http://kg8m.github.io/blog/2014/08/26/test/</loc>
-    <lastmod>2014-08-26T19:00:00+09:00</lastmod>
+    <loc>http://kg8m.github.io/blog/2014/09/28/read-perfect-ruby-on-rails</loc>
+    
+    <lastmod>2014-09-28T20:00:00+09:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://kg8m.github.io/blog/2014/08/26/wordpress-to-github-pages-and-octopress</loc>
+    
+    <lastmod>2014-08-26T00:00:00+09:00</lastmod>
+    
     <priority>0.8</priority>
   </url>
   
   
   <url>
     <loc>http://kg8m.github.io/blog/archives/</loc>
-    <lastmod>2014-08-29T12:31:17+09:00</lastmod>
+    <lastmod>2014-09-28T18:50:54+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://kg8m.github.io/</loc>
-    <lastmod>2014-08-29T12:31:17+09:00</lastmod>
+    <lastmod>2014-09-28T18:50:54+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+  
   
   
 </urlset>

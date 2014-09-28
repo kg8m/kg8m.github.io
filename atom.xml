@@ -1,92 +1,291 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[きにきじ]]></title>
   <link href="http://kg8m.github.io/atom.xml" rel="self"/>
   <link href="http://kg8m.github.io/"/>
-  <updated>2014-08-29T12:31:17+09:00</updated>
+  <updated>2014-09-28T18:50:54+09:00</updated>
   <id>http://kg8m.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[kg8m]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
   
   <entry>
-    <title type="html"><![CDATA[テスト投稿]]></title>
-    <link href="http://kg8m.github.io/blog/2014/08/26/test/"/>
-    <updated>2014-08-26T19:00:00+09:00</updated>
-    <id>http://kg8m.github.io/blog/2014/08/26/test</id>
-    <content type="html"><![CDATA[<p>これはテスト投稿です。</p>
+    <title type="html"><![CDATA[『パーフェクト Ruby on Rails』を読んだ]]></title>
+    <link href="http://kg8m.github.io/blog/2014/09/28/read-perfect-ruby-on-rails"/>
+    <updated>2014-09-28T20:00:00+09:00</updated>
+    <id>http://kg8m.github.io/blog/2014/09/28/read-perfect-ruby-on-rails</id>
+    <content type="html"><![CDATA[<p>『<a href="http://www.amazon.co.jp/o/ASIN/4774165166/kgtk-22/">パーフェクト Ruby on Rails（すがわらまさのり、前島真一、近藤宇智朗、橋立友宏）</a>』を読みました。「Rails 開発に慣れてきたかな」くらいの人にちょうどいい内容だったと思います。それくらいレベルの人が少し上を目指したり、より Rails らしい設計や開発の仕方を学んだりするのにいい書籍だと思いました。Ruby 2 や Rails 4 向けの説明になっているので、新しめの情報を得たいような場合にもお薦めです。逆に、最新の Ruby や Rails でバリバリ開発しているような人には既知のことばかりで物足りないんじゃないかなという印象です。</p>
 
-<h3>見出し</h3>
+<p>全体的に興味はあったのですが、購入の決め手となったのは第9章「より実践的なモデルの使い方」です。どう設計するか、どうリファクタリングするかの1つの指針として読んでみたいと思いました。実際に読んだ感想としては、学びも多く、読んでよかったと思います。</p>
 
-<p>このようにテキストを記述します。テストテスト٩(<em>ﾟ∀ﾟ</em>)۶</p>
-
-<p>とても長いテキストとても長いテキストとても長いテキストとても長いテキストとても長いテキストとても長いテキストとても長いテキストとても長いテキストとても長いテキストとても長いテキストとても長いテキストとても長いテキストとても長いテキストとても長いテキストとても長いテキストとても長いテキストとても長いテキストとても長いテキストとても長いテキスト</p>
+<p>以下、特に勉強になったところ、気になったところのメモです。ちょくちょく載せているサンプルコードのうち明示していないものは自分で適当に考えたものです。本書にはより適切なサンプルコードと詳しい解説が載っていますのでぜひ購入してご覧になってみてください。</p>
 
 <!-- more -->
 
 
-<p>リストは以下のようになります。</p>
+<h2>第1章　Ruby on Rails の概要</h2>
+
+<p>Rails を扱うための準備や概要について書かれた章です。Rails の開発に慣れている人はあまり読む必要がないと思います。</p>
+
+<p>「いつも開発環境の準備とか初期の開発とかは他の人がやってくれるので自分ではほとんどやったことない」とか、「普段の環境と自宅の環境が全然違っていて、例えば職場では Mac に VMware Fusion をインストールして仮想環境で Linux OS を動かして開発しているけど自宅には Windows マシンしかない」みたいな、準備にあまり自信がないような場合は読む価値があるかもしれません。</p>
+
+<h2>第2章　Ruby on Rails と MVC</h2>
+
+<p>MVC について書かれた章です。Rails における MVC の考え方、具体的な開発イメージが掴めると思います。この章も、慣れている人はあまり読む必要がないと思います。</p>
+
+<p>Rails で MVC のモデル、ビュー、コントローラがそれぞれどういう扱いなのかはざっくりわかりますが、きちんと MVC について理解したければ別の書籍やネットの情報にあたったほうがいいです。</p>
+
+<p>実際の開発で使う Rails 4 のいろいろな機能について解説されているので、そのへんあまり把握してないという人は読むといいかもしれません。以下のように、Rails 3 や 4 から書式が変わったり新機能として実装されたりしたものも解説されています。リリースノート読むの面倒臭いから手っ取り早く知りたいという方にはちょうどいいかもしれません。</p>
 
 <ul>
-<li>リスト</li>
-<li>リスト
+<li>モデル
 
 <ul>
-<li>1階層下げたリスト
+<li>Arel</li>
+<li>バリデーション</li>
+<li>ActiveRecord enums</li>
+</ul>
+</li>
+<li>コントローラ
 
 <ul>
-<li>2階層下げたリスト
+<li>ルーティング、リソース</li>
+<li>StrongParameters</li>
+</ul>
+</li>
+<li>ビュー
 
 <ul>
-<li>3階層下げたリスト
-
-<ul>
-<li>4階層下げたリスト
-
-<ul>
-<li>5階層下げたリスト</li>
+<li>variants</li>
+<li>HTML エスケープと <code>raw</code> メソッド</li>
 </ul>
 </li>
 </ul>
+
+
+<h2>第3章　アセット</h2>
+
+<p>画像、JavaScript、Stylesheet などのアセットについて書かれた章です。Asset Pipeline の仕組みと活用法について書かれています。</p>
+
+<p>自分は Asset Pipeline についての理解が浅く、開発でもほとんど触れたことがないため、興味深く読みました。CoffeeScript や Sass についても簡単に触れられているので、入門としてはいいんじゃないかと思います。</p>
+
+<p>個人的には、テンプレートの拡張子を2つ以上重ねる Tip が新しい学びでした。例えば、test.js.coffee.erb というファイル名で、CoffeeScript のファイルに ERB を埋め込めます。</p>
+
+<figure class='code'><figcaption><span>test.js.coffee.erb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='coffee'><span class='line'><span class="o">&lt;%</span> <span class="mi">5</span><span class="p">.</span><span class="nx">times</span> <span class="nx">do</span> <span class="o">|</span><span class="nx">i</span><span class="o">|</span> <span class="o">%&gt;</span>
+</span><span class='line'>  <span class="nx">notice</span><span class="o">&lt;%=</span> <span class="nx">i</span> <span class="o">%&gt;</span> <span class="o">=</span> <span class="nf">-&gt;</span>
+</span><span class='line'>    <span class="nx">alert</span><span class="p">(</span><span class="s">&quot;&lt;%= i %&gt;&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;%</span> <span class="nx">end</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>それと、アセット関連の読み込み改善ということで、Turbolinks についても触れられています。概要や注意点について書かれているので、こちらも入門用としてはよさそうです。</p>
+
+<h2>第4章　Rails のロードパスとレイヤーの定義方法</h2>
+
+<p>モデル、ビュー、コントローラ以外のレイヤーを追加する方法と、その際に必要になるロードパスの考え方について書かれた章です。ワーカーやデコレーターといったレイヤーの追加の仕方を gem を紹介しながら説明しています。</p>
+
+<p>個人的にはこういう設計に関するところは興味があったのでおもしろかったです。以下はメモ。</p>
+
+<p>lib/autoload ディレクトリをオートロードさせるには、config/application.rb に以下のように記述します。</p>
+
+<figure class='code'><figcaption><span>config/application.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Application</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Application</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">autoload_paths</span> <span class="o">+=</span> <span class="sx">%w[#{config.root}/lib/autoload)</span>
+</span><span class='line'>
+</span><span class='line'><span class="sx">  ....</span>
+</span><span class='line'><span class="sx">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3><a href="http://sidekiq.org/">Sidekiq gem</a> で非同期処理</h3>
+
+<p>Sidekiq という gem を使うと、Rails からメッセージを受け取ったワーカーが Rails とは別に立ち上げられたプロセスで処理を行うことで非同期処理を実現できます。<a href="http://redis.io/">Redis</a> が必要です。</p>
+
+<p>実装は、ワーカークラス内で <code>include Sidekiq::Worker</code> してインスタンスメソッド <code>perform</code> を定義します。<code>perform</code> の引数は、JSON でシリアライズ可能な値のみ使用できます。</p>
+
+<h2>第5章　開発を効率化する gem</h2>
+
+<p>デバッグの効率化やよく使うコマンドの高速化を行う gem を紹介した章です。</p>
+
+<h3><a href="http://pryrepl.org/">Pry</a>: irb を高機能にした REPL 環境</h3>
+
+<ul>
+<li><code>ls</code>: 実行中のスコープ内の変数やメソッドの一覧を出力</li>
+<li><code>cd</code>: オブジェクトの中へ移動する。対象のオブジェクトの状態を詳しく調べられる</li>
+<li><code>show-method</code>: メソッド定義を参照する。C 実装の部分はダメ</li>
+<li><code>show-doc</code>: ドキュメントを参照する。C 実装の部分はダメ</li>
+<li>ブレークポイントの設定、ステップ実行（byebug gem が必要）</li>
+</ul>
+
+
+<p><a href="https://github.com/rweng/pry-rails">pry-rails</a> を使うと、Rails console でも Pry を使えるようになります。また、以下のコマンドが追加されます。</p>
+
+<ul>
+<li><code>recognize-path</code>: 引数に渡した文字列などをルーティングの action や controller 情報にパースする</li>
+<li><code>show-middleware</code>: 読み込んでいる Rack Middleware を表示する</li>
+<li><code>show-model</code>: 引数に渡したモデルの情報を出力する</li>
+<li><code>show-models</code>: すべてのモデルの情報を出力する</li>
+<li><code>show-routes</code>: ルーティング情報を出力する</li>
+</ul>
+
+
+<h3><a href="http://tagaholic.me/hirb/">Hirb</a>: コンソール上のモデルの出力を整形</h3>
+
+<p>ActiveRecord::Base インスタンスの出力が表形式になります。マルチバイト文字を扱う場合は <a href="https://github.com/miaout17/hirb-unicode">hirb-unicode gem</a> も必要です。</p>
+
+<p>Pry で Hirb を利用する場合は .pryrc に設定を記述しておくと便利です。</p>
+
+<h3><a href="https://github.com/charliesome/better_errors">Better Errors</a>: エラー画面をリッチに</h3>
+
+<p><a href="https://github.com/banister/binding_of_caller">binding_of_caller gem</a> を一緒に使うと、以下のようにさらに便利になります。</p>
+
+<ul>
+<li>例外が発生したときの変数の内容を出力</li>
+<li>例外が発生した時点の状態で REPL 環境が起動、オブジェクトの操作が可能に</li>
+</ul>
+
+
+<h3><a href="https://github.com/rails/spring">Spring</a>: コマンド高速化</h3>
+
+<p>ライブラリロードなどが短縮されるので、<code>rails</code> や <code>rake</code> といったコマンドが高速化します。Windows 環境では動きません。</p>
+
+<h3><a href="http://voormedia.github.io/rails-erd/">Rails ERD</a>: ER 図を生成</h3>
+
+<p><code>rake</code> タスクに <code>erd</code> が追加されます。実行すると、<a href="http://graphviz.org/">Graphviz</a> を使って描画された ER 図が PDF で出力されます。つまり、Graphviz 必須です（<a href="http://www.r-project.org/">R</a> とか使っている人には定番ツールですね）。</p>
+
+<h2>第6章　Rails アプリケーション開発</h2>
+
+<p>実際の Rails アプリケーション開発のチュートリアルです。RESTful なルーティング、Bootstrap の導入、OAuth 利用（Twitter でログイン）、エラーハンドリング、<a href="https://github.com/amatsuda/kaminari">Kaminari gem</a> + <a href="https://github.com/mcasimir/kaminari-bootstrap">kaminari-bootstrap gem</a> を使ったページング（ページネーション）、<a href="https://github.com/activerecord-hackery/ransack">ransack gem</a> を使った検索機能、<a href="https://github.com/carrierwaveuploader/carrierwave">carrierwave gem</a> を使った画像アップロード機能について書かれています。</p>
+
+<p>気になった点について触れていくと……</p>
+
+<p>まず、OAuth のところで出てきた、「lvm.me」については初めて知りました。</p>
+
+<p><code>AbstractController::Helpers::ClassMethods#helper_method</code> を使ってコントローラからヘルパーのメソッドを呼び出せるようにできるのは忘れがちです。</p>
+
+<p><code>./bin/rails g resources</code> でリソースを作成すると、config/routes.rb 内に自動で <code>resources:events</code> が追加されます。</p>
+
+<p>あと、<code>ActiveRecord::Base.find_by!</code> のように <code>!</code> をつけると見つからなかったときに例外を発生させられるんですね（古い Rails で提供されていた <code>find_by_name</code> のような Dynamic Finder も同様）。恥ずかしながら知りませんでした……。見つからなかったときに例外を吐くのは <code>find</code> くらいかと思っていました……。</p>
+
+<p>ransack gem は使ってみたい gem の1つです。<code>where</code> を使っていたところを <code>search</code> に置き換えて、あとはパラメータ名を工夫するといい感じの SQL を発行してくれます。クラスメソッドの <code>ransackable_attributes</code> や <code>ransackable_associations</code> を使えば検索条件や関連を限定することもできます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Event</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="ss">name_cont</span><span class="p">:</span> <span class="s2">&quot;JavaScript&quot;</span><span class="p">)</span>    <span class="c1"># equal to Event.where(&quot;name like ?&quot;, &quot;%JavaScript%&quot;)</span>
+</span><span class='line'><span class="no">Event</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="ss">start_time_gteq</span><span class="p">:</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>  <span class="c1"># equal to Event.where(&quot;start_time &gt;= ?&quot;, Time.now)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>画像アップロード機能のところでは、以下のような、画像を扱うときの注意点についても触れられていて参考になります。<a href="https://github.com/glebtv/carrierwave-magic">carrierwave-magic gem</a> などを使うと mime-type を判定したりもできるのですね。</p>
+
+<ul>
+<li>アップロードしたファイルをどこに配置するか</li>
+<li>サイズが大きい画像をアップロードした場合にどうするか</li>
+<li>画像以外のファイルをアップロードした場合はどうするか</li>
+</ul>
+
+
+<p>最後に、Rails を使って開発をする際に意識しておくべき大切なことが書かれています。</p>
+
+<blockquote><p>……（Rails が提供する）機能を学ぶ際は、単純に丸暗記するのではなく「なぜこのような機能があるのか」を積極的に調べるようにしましょう。Rails が提供している機能の多くは、Web アプリケーション開発全般で使えるベストプラクティスです。</p>
+
+<p>……たいていの場合、実装方法の選択肢は複数存在します。選択肢の種類を増やすことと、その中から適切な実装方法を選ぶこと、両方とも経験が必要なことですが、大事なのは常に複数の選択肢があることを前提に、設計に真摯に向き合うことです。</p></blockquote>
+
+<h2>第7章　Rails アプリケーションのテスト</h2>
+
+<p>Rails におけるテストの書き方、テストで使えるツール、TDD（テスト駆動開発）について書かれた章です。minitest と RSpec の比較なんかもあり、どういう場合にどちらが適切かを考える1つの指針になるかもしれません。<a href="https://github.com/jnicklas/capybara">capybara gem</a>、<a href="https://github.com/teampoltergeist/poltergeist">poltergeist</a> を使ったエンドツーエンドのテストについても書かれています。CI、カバレッジ、静的解析（e.g., <a href="http://brakemanscanner.org/">Brakeman gem</a>、<a href="https://github.com/railsbp/rails_best_practices">rails_best_practices gem</a>、<a href="https://codeclimate.com/">Code Climate</a> というサービス）にも少し触れられています。</p>
+
+<p>本章では、テストを書く理由について以下のように述べられています。</p>
+
+<ul>
+<li>テスト対象となる仕様とアプリケーションの設計を考える機会が増える
+
+<ul>
+<li>（仕様の抜け漏れを減らすことができる）</li>
+<li>（きれいな設計にできる）</li>
+</ul>
 </li>
+<li>手作業によるテストを減らすことができる</li>
+<li>「ここはちゃんと想定どおりに動くだろうか……」という不安を減らせる</li>
+<li>リファクタリングや仕様の変更に自信を持って対応できる</li>
+</ul>
+
+
+<p>個人的に加えるとすれば、「仕様書代わりにできる」という点でしょうか。普段テストを読むというのはそこまでやりませんが、あるクラスやメソッドについて理解を深めたいときにテストを読んで仕様を把握しようとすることがあります。特に RSpec を使うとより Spec を記述しやすいのでこのポイントを意識しています。</p>
+
+<p>本の内容に戻りますが、RSpec を使うなら <a href="https://github.com/thoughtbot/shoulda-matchers">shoulda-matchers gem</a> を使うと幸せになれそうですね。</p>
+
+<p>ダブル（他のオブジェクトの代わりをするオブジェクト）、スタブ（メソッドを仮に定義し、メソッドが実行されたときに任意の値を返させる）についても触れられています。<a href="https://www.google.co.jp/search?q=double+stub+mock">ダブル、スタブ、モックの違いについてはいろいろ情報があるのでそちらに譲ります</a>（ちなみにこのへんの違いは本書を読んでも詳しくはわかりません）。</p>
+
+<p><code>assign</code> メソッドでインスタンス変数に値を設定できるようなのですが、普通に <code>@hoge = fuga</code> と書くのに比べてどういったメリットがあるのでしょうか。要調査です。</p>
+
+<p>capybara はこれまで使ったことがありませんでした。エンドツーエンドのテストに関して個人的に気になったポイントは以下です。</p>
+
+<ul>
+<li>capybara は、ドライバと呼ばれる仕組みによって、「どのブラウザを利用してテストをするのか」を切り替えられる</li>
+<li>capybara は selenium（ブラウザを操作してテストするドライバ）をサポートしているが、実際にはあまり行われていない
+
+<ul>
+<li>実行時間がかかりすぎるため</li>
+<li>ブラウザを動かすための GUI 環境が必要なため。代わりに、<a href="https://github.com/thoughtbot/capybara-webkit">capybara-webkit</a> や poltergeist というドライバを利用するのが一般的</li>
+</ul>
+</li>
+<li>最近はコントローラやビューのテストの記述は少なくなる傾向にある。ただし、エンドツーエンドのテストは実行時間がかかるので、内容からどこに書くべきかを判断して書きわけることが大切</li>
+<li><a href="https://github.com/DatabaseCleaner/database_cleaner">Database Cleaner gem</a> で、<code>DatabaseCleander.strategy</code> を切り替えることで、通常のテストではトランザクションを利用し、poltergeist を利用したテストでは truncation でデータ削除するという使いわけができる</li>
+<li><code>describe</code> の第2引数に <code>js: true</code> を渡すことで、capybara に対して JavaScript 用のドライバを使うことを知らせる</li>
+</ul>
+
+
+<h2>第8章　Rails のインフラと運用</h2>
+
+<p>サーバの構築や構成管理、アプリケーションの配備（デプロイメント）、監視について書かれた章です。<a href="https://www.vagrantup.com/">Vagrant</a> + <a href="http://www.getchef.com/chef/">Chef</a> を使った環境の構築方法、<a href="http://capistranorb.com/">Capistrano</a> の使い方、<a href="http://newrelic.com/">New Relic</a> の使い方が書かれています。</p>
+
+<p>他にも、以下のようなツール/サービスが紹介されています。</p>
+
+<ul>
+<li><a href="https://airbrake.io/">Airbrake</a>: エラー通知と解析に特化した SaaS</li>
+<li><a href="http://smartinez87.github.io/exception_notification/">Exception notification</a>: エラー通知のためのライブラリ</li>
+<li><a href="http://www.fluentd.org/">Fluentd</a>: ログの収集に特化したサーバ（ミドルウェア）。Rails なら、<a href="https://github.com/walf443/rack-common_logger-fluent">rack-common_logger-fluent gem</a> を使うと便利
+
+<ul>
+<li><a href="http://www.elasticsearch.org/overview/kibana/">Kibana</a>: Fluentd で収集したデータを可視化するアプリケーション</li>
 </ul>
 </li>
 </ul>
-</li>
+
+
+<h2>第9章　より実践的なモデルの使い方</h2>
+
+<p>“Skinny Controllers, Fat Models”（コントローラを薄く、モデルを厚く）に基づいて Rals 開発を進めていくと、どんどんモデルが肥大化します。この問題に対して、バリデーションおよびコールバックを小さなクラスに分離する方法、ActiveModel を使って RDB（リレーショナルデータベース）に依存しないモデルクラスを定義する方法、一部の機能を ActiveRecord モデルの外に抽出する方法が紹介されています。</p>
+
+<p>個人的には、本書の中で最も読みたかったところです。ある程度はネット上に情報があるのですが、Rails で具体的にどうやるかがまとまっているのがありがたかったです。</p>
+
+<h3>コールバック、バリデーションを小さなクラスに分離する</h3>
+
+<h4>コールバックの分離</h4>
+
+<p>コールバックをクラスに分離するメリットは本書によれば以下のとおりです。</p>
+
+<ul>
+<li>コールバックが複数のフックポイントにまたがって1つの機能を実現している場合、それぞれのコールバックの関係性を明確に表現できる</li>
+<li>モデルクラスは本来のビジネスロジックの実装に集中できる</li>
+<li>機能の境界がはっきりすることで、テストを行いやすくなる</li>
 </ul>
-</li>
-</ul>
 
 
-<p>以下のような番号つきリストも可能です。</p>
-
-<ol>
-<li> 番号つきリスト
-
-<ol>
-<li>1階層下げた番号つきリスト</li>
-<li> 2階層下げた番号つきリスト
-
-<ol>
-<li>3階層下げた番号つきリスト</li>
-<li> 4階層下げた番号つきリスト
-
-<ol>
-<li>5階層下げた番号つきリスト</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-
-
-<h3>Ruby コード</h3>
+<p>コールバックに渡すことのできるオブジェクトは、そのコールバックの名前と同じ名前のインスタンスメソッドを実装している必要があります。本書にも引用されている <a href="http://api.rubyonrails.org/classes/ActiveRecord/Callbacks.html">ActiveRecord::Callbacks</a> のコード例は以下です。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -94,19 +293,1138 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Hoge</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">hoge</span>
-</span><span class='line'>    <span class="nb">p</span> <span class="s2">&quot;ほげ&quot;</span>
-</span><span class='line'>    <span class="s2">&quot;あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ&quot;</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">BankAccount</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">before_save</span>      <span class="no">EncryptionWrapper</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;credit_card_number&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">after_save</span>       <span class="no">EncryptionWrapper</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;credit_card_number&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">after_initialize</span> <span class="no">EncryptionWrapper</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;credit_card_number&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">EncryptionWrapper</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">attribute</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@attribute</span> <span class="o">=</span> <span class="n">attribute</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">before_save</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">record</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@attribute</span><span class="si">}</span><span class="s2">=&quot;</span><span class="p">,</span> <span class="n">encrypt</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@attribute</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)))</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">after_save</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">record</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@attribute</span><span class="si">}</span><span class="s2">=&quot;</span><span class="p">,</span> <span class="n">decrypt</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@attribute</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)))</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">alias_method</span> <span class="ss">:after_initialize</span><span class="p">,</span> <span class="ss">:after_save</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span><span class='line'>      <span class="c1"># Secrecy is committed</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span><span class='line'>      <span class="c1"># Secrecy is unveiled</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>バリデーションの分離</h4>
+
+<p>バリデーションを分離するメリットは、本書では以下のように述べられています。</p>
+
+<ul>
+<li>責任の境界がはっきりする</li>
+<li>テストが容易になる</li>
+</ul>
+
+
+<p><code>ActiveModel::EachValidator</code> を継承したクラスを定義すると、モデルで使う <code>validates</code> メソッドがそのクラス名に基づいたオプションを受け取れるようになります。その際の決まり事は以下です。</p>
+
+<ul>
+<li>バリデータクラスにインスタンスメソッド <code>validate_each</code> を定義する</li>
+<li><code>validate_each</code> の引数はモデルのインスタンス、属性名、属性値の3つ</li>
+<li><code>HogeValidator</code> というクラス名の <code>Validator</code> を除いた部分を <code>underscore</code> したものがオプション名となる。<code>HogeValidator</code> なら <code>hoge</code></li>
+</ul>
+
+
+<p>既存のバリデータクラスを継承したサブクラスを定義したり、新しく自分でバリデータクラスを定義したりすることで、うまく検証ルールを整理できます。</p>
+
+<p>以下では、コメントの内容に必ず褒め言葉を入れるように強制しています（……ツッコミどころ満載な例ですが）。</p>
+
+<figure class='code'><figcaption><span>lib/autoload/must_praise_validator.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MustPraiseValidator</span> <span class="o">&lt;</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">EachValidator</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">validate_each</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">unless</span> <span class="n">value</span> <span class="o">=~</span> <span class="sr">/すばらしい|さすが|感動|ありがとう/</span>
+</span><span class='line'>      <span class="n">record</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">add</span> <span class="n">attribute</span><span class="p">,</span> <span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;は必ず褒めてください。&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
+
+
+<figure class='code'><figcaption><span>app/models/comment.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">validates</span> <span class="ss">:content</span><span class="p">,</span> <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">must_praise</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>ActiveModel::Validator</code> クラスを継承すると、1つの属性値だけに留まらない複雑な検証ルールを扱うクラスを定義できます。このクラスは以下のような構成となります。</p>
+
 <ul>
-<li><code>ほげ</code> という文字列を出力したあと、<code>あ</code> が連なった文字列を返します。</li>
+<li>インスタンスメソッド <code>validate</code> が定義されている</li>
+<li><code>validate</code> メソッドの引数はモデルのインスタンスのみ</li>
+<li>実際に使うモデルのクラスでクラスメソッド <code>validates_with</code> に引数としてバリデータクラスを渡す</li>
 </ul>
 
+
+<p>以下は、Event クラスの開始時刻と終了時刻が入力された場合に正しく時間（範囲）として扱えるかを検証しています。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># == Schema Information</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># Table name: events</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># id          :integer     not null, primary key</span>
+</span><span class='line'><span class="c1"># name        :string(255)</span>
+</span><span class='line'><span class="c1"># start_time  :datetime</span>
+</span><span class='line'><span class="c1"># finish_time :datetime</span>
+</span><span class='line'><span class="c1"># created_at  :datetime</span>
+</span><span class='line'><span class="c1"># updated_at  :datetime</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Event</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">validates_with</span> <span class="no">RangeableValidator</span><span class="p">,</span> <span class="k">if</span><span class="p">:</span> <span class="o">[</span><span class="ss">:start_time</span><span class="p">,</span> <span class="ss">:finish_time</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">RangeableValidator</span> <span class="o">&lt;</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Validator</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">unless</span> <span class="n">start_time</span> <span class="o">&lt;</span> <span class="n">finish_time</span>
+</span><span class='line'>      <span class="n">record</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">add</span> <span class="ss">:base</span><span class="p">,</span> <span class="s2">&quot;終了時刻は開始時刻よりもあとにしてください。&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>クラスを分離するメリット、デメリット</h4>
+
+<p>コールバックやバリデーションをクラスに分離するデメリットは以下です。</p>
+
+<ul>
+<li>コード量が増加する</li>
+<li>実装が分散することで、モデルクラスの動作を把握する手間が増える</li>
+</ul>
+
+
+<p>一方で、分離するメリットというか使いどころは以下です。</p>
+
+<ul>
+<li>モデルクラスの制約から分離する: テストが容易になる。過剰なトリックを使わずに機能の本質をテストできる</li>
+<li>業務知識を表現する: 業務上のルールとして重要な場合、そのルールに相当する名前で分離することにより、業務上の概念と設計上の概念を一致させられる</li>
+</ul>
+
+
+<p>注意点として、対象となる制約条件がどの範囲で利用されるのかを踏まえた上で記述方法を考えることが大切という点にも触れられています。ある条件のときに一部のバリデーションやコールバックだけを無効にするというのは手間がかかり複雑になります。特定の機能についてのみ影響するような制約条件については、バリデーションやコールバックとして表現するのではなくサービスクラス（後述）の中にまとめてしまったほうがいい場合もあります。</p>
+
+<p>また、分離する以外にも、特定の機能についての関心事をモジュールにまとめて切り出して表現することもできます。この方法は後述の Concern で詳しく記述されています。</p>
+
+<h3>ActiveModel: データベースに依存しないモデルをつくる</h3>
+
+<p>データベースには対応しないけれど以下のような ActiveRecord の便利な機能を持ったクラスを定義したい場合、ActiveModel モジュールを使うと便利です。</p>
+
+<ul>
+<li>バリデーション</li>
+<li>コールバック</li>
+<li>属性名を基にした動的なメソッドを定義</li>
+<li>属性値に対する変更を保持する</li>
+<li>オブジェクトのシリアライズ</li>
+</ul>
+
+
+<p>本書では、ActiveModel の機能の中で代表的なものについて紹介しています。</p>
+
+<h4>ActiveModel::AttributeMethods</h4>
+
+<p>ActiveModel::AttributeMethods は <code>attr_accessor</code> などで定義したアクセサメソッドに対しメソッドを宣言的に定義できる機能を提供します。</p>
+
+<p>ActiveModel::AttributeMethods を include すると、以下のクラスメソッドが定義されます。</p>
+
+<ul>
+<li><code>attribute_method_suffix</code></li>
+<li><code>attribute_method_prefix</code></li>
+<li><code>attribute_method_affix</code></li>
+<li><code>define_attribute_methods</code></li>
+<li><code>alias_attribute</code></li>
+</ul>
+
+
+<p>例えば以下のように定義したとすると、 以下のメソッドが使えるようになります。</p>
+
+<ul>
+<li><code>Person#upcase_first_name</code></li>
+<li><code>Person#upcase_family_name</code></li>
+<li><code>Person#upcase_first_name!</code></li>
+<li><code>Person#upcase_family_name!</code></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Person</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">AttributeMethods</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">attribute_method_prefix</span> <span class="s2">&quot;upcase_&quot;</span>
+</span><span class='line'>  <span class="n">attribute_method_affix</span>  <span class="ss">prefix</span><span class="p">:</span> <span class="s2">&quot;upcase_&quot;</span><span class="p">,</span> <span class="ss">suffix</span><span class="p">:</span> <span class="s2">&quot;!&quot;</span>
+</span><span class='line'>  <span class="n">define_attribute_methods</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:family_name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:family_name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">attributes</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>      <span class="s2">&quot;first_name&quot;</span>  <span class="o">=&gt;</span> <span class="vi">@first_name</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;family_name&quot;</span> <span class="o">=&gt;</span> <span class="vi">@family_name</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">upcase_attribute</span><span class="p">(</span><span class="kp">attr</span><span class="p">)</span>
+</span><span class='line'>      <span class="nb">send</span><span class="p">(</span><span class="kp">attr</span><span class="p">)</span><span class="o">.</span><span class="n">upcase</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">upcase_attribute!</span><span class="p">(</span><span class="kp">attr</span><span class="p">)</span>
+</span><span class='line'>      <span class="nb">send</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="kp">attr</span><span class="si">}</span><span class="s2">=&quot;</span><span class="p">,</span> <span class="n">upcase_attribute</span><span class="p">(</span><span class="kp">attr</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">person</span><span class="o">.</span><span class="n">first_name</span>  <span class="o">=</span> <span class="s2">&quot;Jonathan&quot;</span>
+</span><span class='line'><span class="n">person</span><span class="o">.</span><span class="n">family_name</span> <span class="o">=</span> <span class="s2">&quot;Joestar&quot;</span>
+</span><span class='line'><span class="n">person</span><span class="o">.</span><span class="n">upcase_first_name</span>   <span class="c1">#=&gt; &quot;JONATHAN&quot;</span>
+</span><span class='line'><span class="n">person</span><span class="o">.</span><span class="n">upcase_family_name</span>  <span class="c1">#=&gt; &quot;JOESTAR&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>ActiveModel::Callbacks</h4>
+
+<p>ActiveModel::Callbacks は <code>before_save</code> や <code>after_create</code> のようなコールバックを定義しやすくしてくれるモジュールです。ActiveRecord と同様の記述スタイルでいいのであれば ActiveSupport::Callbacks モジュールを使うよりも記述が少なく簡単に記述できるというメリットがあります。</p>
+
+<p>使い方は以下のサンプルコードを見ればだいたいわかると思います。毎回 <code>run_callbacks</code> を呼び出してあげないといけないのがちょっと面倒臭いですね。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Hero</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Callbacks</span>
+</span><span class='line'>  <span class="n">define_model_callbacks</span> <span class="ss">:appear</span>                   <span class="c1"># `before_appear` と `after_appear` を定義</span>
+</span><span class='line'>  <span class="n">define_model_callbacks</span> <span class="ss">:defeat</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="o">[</span><span class="ss">:before</span><span class="o">]</span>  <span class="c1"># `before_defeat` のみ定義</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:skill_name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">before_appear</span> <span class="ss">:transform</span>
+</span><span class='line'>  <span class="n">before_defeat</span> <span class="ss">:shout_skill_name</span>
+</span><span class='line'>  <span class="n">after_appear</span> <span class="ss">:lose</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">transform</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;変身!!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">appear</span>
+</span><span class='line'>    <span class="n">run_callbacks</span> <span class="ss">:appear</span> <span class="k">do</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;参上!!&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">lose</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;何……だと……&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">shout_skill_name</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="o">&lt;&lt;-</span><span class="no">EOS</span>
+</span><span class='line'><span class="sh">＿人人人人人人人人人＿</span>
+</span><span class='line'><span class="sh">＞  #{skill_name}   ＜</span>
+</span><span class='line'><span class="sh">￣Y^Y^Y^Y^Y^Y^Y^Y^Y^￣</span>
+</span><span class='line'><span class="no">    EOS</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">defeat</span><span class="p">(</span><span class="n">enemy</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">run_callbacks</span> <span class="ss">:defeat</span> <span class="k">do</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;とどめだ、</span><span class="si">#{</span><span class="n">enemy</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">!!&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>ActiveModel::Dirty</h4>
+
+<p>ActiveModel::Dirty を使うと、属性値の変化を追跡できるようになります。<code>hoge_changed?</code> などのメソッドが使えるようになります。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">User</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Dirty</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">define_attribute_methods</span> <span class="ss">:password</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">password</span>
+</span><span class='line'>    <span class="vi">@password</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">password</span><span class="o">=</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">password_will_change!</span> <span class="k">unless</span> <span class="n">value</span> <span class="o">==</span> <span class="vi">@password</span>
+</span><span class='line'>    <span class="vi">@password</span> <span class="o">=</span> <span class="n">value</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">save</span>
+</span><span class='line'>    <span class="vi">@previously_changed</span> <span class="o">=</span> <span class="n">changes</span>
+</span><span class='line'>    <span class="vi">@changed_attributes</span><span class="o">.</span><span class="n">clear</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">password_changed?</span>  <span class="c1">#=&gt; false</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">changed</span>            <span class="c1">#=&gt; []</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">changes</span>            <span class="c1">#=&gt; {}</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="s2">&quot;hoge&quot;</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">password_changed?</span>  <span class="c1">#=&gt; true</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">changed</span>            <span class="c1">#=&gt; [&quot;password&quot;]</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">changes</span>            <span class="c1">#=&gt; { &quot;password&quot; =&gt; [&quot;&quot;, &quot;hoge&quot;] }</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">password_changed?</span>  <span class="c1">#=&gt; false</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">changed</span>            <span class="c1">#=&gt; []</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">changes</span>            <span class="c1">#=&gt; {}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>define_attribute_methods</code> を使用していることからわかるように、ActiveModel::Dirty は内部で ActiveModel::AttributeMethods を利用しています。</p>
+
+<p>変更の追跡には <code>hoge_will_change!</code> メソッドが使われます。変更されたという状態をクリアする際は <code>@changed_attributes</code> をクリアします。前回の変更内容を保持するには <code>@previously_changed</code> に <code>changes</code> の内容を保持しておきます。</p>
+
+<h4>ActiveModel::Naming</h4>
+
+<p>ActiveModel::Naming を使うと、クラスが <code>model_name</code> メソッドを使えるようになります。<code>model_name</code> メソッドは、文字列に似た ActiveModel::Name オブジェクトのインスタンスを返し、それにより Rails の命名規約や I18n を利用した文字列の変換を簡単に処理できるようになります。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">User</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Naming</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>似たモジュールとして、以下のようなものもあります。</p>
+
+<table>
+<thead>
+<tr>
+<th> モジュール名             </th>
+<th> 内容                                                                                                      </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> ActiveModel::Translation </td>
+<td> I18n を利用するためのヘルパーメソッドを定義してくれる                                                     </td>
+</tr>
+<tr>
+<td> ActiveModel::Conversion  </td>
+<td> オブジェクトを URL のパラメータとして利用したりファイルパスの検索キーとして利用しやすい形に変換してくれる </td>
+</tr>
+</tbody>
+</table>
+
+
+<h4>ActiveModel::Serialization</h4>
+
+<p>ActiveModel::Serialization は、json や xml 形式でオブジェクトをシリアライズする機能を追加します。実際にシリアライズする機能は ActiveModel::Serializers::JSON と ActiveModel::Serializers::XML に定義されているので、利用する際はこちらを include ｓite使うことになります。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Comment</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Serializers</span><span class="o">::</span><span class="no">XML</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">:article</span><span class="p">,</span> <span class="ss">:content</span><span class="p">,</span> <span class="ss">:created_at</span><span class="p">,</span> <span class="ss">:updated_at</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">attributes</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>      <span class="s2">&quot;user&quot;</span>       <span class="o">=&gt;</span> <span class="vi">@user</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;article&quot;</span>    <span class="o">=&gt;</span> <span class="vi">@article</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;content&quot;</span>    <span class="o">=&gt;</span> <span class="vi">@content</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;created_at&quot;</span> <span class="o">=&gt;</span> <span class="vi">@created_at</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;updated_at&quot;</span> <span class="o">=&gt;</span> <span class="vi">@updated_at</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">attributes</span><span class="o">=</span><span class="p">(</span><span class="nb">hash</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">hash</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span>
+</span><span class='line'>      <span class="nb">instance_variable_set</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ActiveModel::Serializer::JSON が提供する <code>from_json</code> および <code>to_json</code> メソッドを使う場合は、<code>attributes</code> メソッドと <code>attributes=(hash)</code> メソッドを定義する必要があります。</p>
+
+<h4>ActiveModel::Validations</h4>
+
+<p>ActiveModel::Validations を使うと、ActiveRecord で利用できるのとほぼ同じバリデーションの機能が使えるようになります。ただし、一部データベースにデータが保存されている前提の機能は ActiveRecord::Validations に定義されていますので、ActiveModel::Validations ですべて ActiveRecord のバリデーションと同じ機能が使えるわけではありません。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Article</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Validations</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Validations</span><span class="o">::</span><span class="no">Callbacks</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:author</span><span class="p">,</span> <span class="ss">:category</span><span class="p">,</span> <span class="ss">:url</span><span class="p">,</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:content</span><span class="p">,</span> <span class="ss">:created_at</span><span class="p">,</span> <span class="ss">:updated_at</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">validates_presence_of</span> <span class="ss">:author</span>
+</span><span class='line'>  <span class="n">validates</span> <span class="ss">:url</span><span class="p">,</span> <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="p">{</span> <span class="ss">with</span><span class="p">:</span> <span class="sr">/\A[-_a-z0-9]*\z/</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">before_save</span> <span class="ss">:set_title</span><span class="p">,</span> <span class="k">unless</span> <span class="ss">:title?</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">set_title</span>
+</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/[^a-z0-9]+/</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:capitalize</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ActiveModel::Validations で使えるようになるバリデーションは以下です。</p>
+
+<ul>
+<li><code>validates_absence_of</code></li>
+<li><code>validates_acceptance_of</code></li>
+<li><code>validates_confirmation_of</code></li>
+<li><code>validates_exclusion_of</code></li>
+<li><code>validates_format_of</code></li>
+<li><code>validates_inclusion_of</code></li>
+<li><code>validates_length_of</code></li>
+<li><code>validates_numericality_of</code></li>
+<li><code>validates_presence_of</code></li>
+<li><code>validates_size_of</code></li>
+</ul>
+
+
+<p>なお、<code>before_validation</code> などのコールバックを使う場合は別途 ActiveModel::Validations::Callbacks の include が必要です。</p>
+
+<h4>ActiveModel::Model</h4>
+
+<p>ActiveModel::Model は Rails 4 から追加されたモジュールで、これを include すると以下のモジュールを一括で include してよりシンプルな記述で ActiveRecord ライクな挙動を与えることができるようになります。</p>
+
+<ul>
+<li>ActiveModel::Naming</li>
+<li>ActiveModel::Translation</li>
+<li>ActiveModel::Validations</li>
+<li>ActiveModel::Conversion</li>
+</ul>
+
+
+<p>ActiveModel::Model を include したクラスは Rails のフォームヘルパーなどに引数として渡すために必要な振る舞いを簡単に満たせます。そのため、データベースに依存しない入力フォームなどを構築したいときや、複数の ActiveRecord オブジェクトにまたがる情報をまとめて扱いたいときなどに便利ということです。</p>
+
+<h3>エンティティと値オブジェクト</h3>
+
+<p>アプリケーションが扱うオブジェクトは、同一性をどう捉えるかによって種類にわけられます。</p>
+
+<table>
+<thead>
+<tr>
+<th> 種類           </th>
+<th> 意味                                                                                                                                             </th>
+<th> 例                                                              </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> エンティティ   </td>
+<td> システムにおいてオブジェクトの同一性が重要な意味を持つもの。Rails のモデルが持つ <code>id</code> のような識別情報を持つ。識別情報が同じなら同じエンティティ </td>
+<td> <code>User(id, login_id, name, email, address)</code> クラスのオブジェクト </td>
+</tr>
+<tr>
+<td> 値オブジェクト </td>
+<td> 「何である」かが重要で、値が同じであればアプリケーション上は同一とみなしていいもの。オブジェクトが持つ値が同じかどうかが同一性を決める           </td>
+<td> メールアドレス、住所                                            </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>ActiveRecord オブジェクトは基本的にはエンティティですが、その属性値の中には値オブジェクトとして扱うと便利なものもあります。</p>
+
+<p>例えば以下のような、名前と（なぜか）和暦の日付を管理する Holiday クラスがあったとします（ねーよｗ）。日付は年号 <code>era_name</code> と年月日から成ります。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># == Schema Information</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># Table name: holidays</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># id         :integer     not null, primary key</span>
+</span><span class='line'><span class="c1"># name       :string(255)</span>
+</span><span class='line'><span class="c1"># era_name   :string(255)</span>
+</span><span class='line'><span class="c1"># year       :integer</span>
+</span><span class='line'><span class="c1"># month      :integer</span>
+</span><span class='line'><span class="c1"># day        :integer</span>
+</span><span class='line'><span class="c1"># created_at :datetime</span>
+</span><span class='line'><span class="c1"># updated_at :datetime</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Holiday</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">same_date?</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kp">false</span> <span class="k">unless</span> <span class="n">other</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">same_era_name?</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">same_year?</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">same_month?</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">same_day?</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">same_era_name?</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">era_name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">era_name</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">same_year?</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">year</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">year</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">same_month?</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">month</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">month</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">same_day?</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">day</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">day</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>日付が同じかどうかを判別する機能を Holiday クラスに直接実装すると、↑のコードように Holiday クラスが持つ責任範囲が広くなりすぎてしまいます。また、例えば誕生日（Birthday）など他のクラスにも日付を持つオブジェクトが存在するかもしれません。</p>
+
+<p>このような場合、値オブジェクトとして日付を表現すると便利です。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Holiday</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">date</span>
+</span><span class='line'>    <span class="vi">@date</span> <span class="o">||=</span> <span class="no">JapaneseCalendarDate</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">era_name</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">date</span><span class="o">=</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">era_name</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">era_name</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">year</span>     <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">year</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">month</span>    <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">month</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">day</span>      <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">day</span>
+</span><span class='line'>    <span class="vi">@date</span> <span class="o">=</span> <span class="n">date</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">JapaneseCalendarDate</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:era_name</span><span class="p">,</span> <span class="ss">:year</span><span class="p">,</span> <span class="ss">:month</span><span class="p">,</span> <span class="ss">:day</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">era_name</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">year</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">month</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">day</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@era_name</span> <span class="o">=</span> <span class="n">era_name</span>
+</span><span class='line'>    <span class="vi">@year</span>     <span class="o">=</span> <span class="n">year</span>
+</span><span class='line'>    <span class="vi">@month</span>    <span class="o">=</span> <span class="n">month</span>
+</span><span class='line'>    <span class="vi">@day</span>      <span class="o">=</span> <span class="n">day</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">hash</span>
+</span><span class='line'>    <span class="n">era_name</span><span class="o">.</span><span class="n">hash</span> <span class="o">+</span> <span class="n">year</span><span class="o">.</span><span class="n">hash</span> <span class="o">+</span> <span class="n">month</span><span class="o">.</span><span class="n">hash</span> <span class="o">+</span> <span class="n">day</span><span class="o">.</span><span class="n">hash</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">==</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kp">false</span> <span class="k">unless</span> <span class="n">other</span><span class="o">.</span><span class="n">kind_of?</span><span class="p">(</span><span class="no">JapaneseCalendarDate</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">same_era_name?</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">same_year?</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">same_month?</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">same_day?</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">same_era_name?</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">era_name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">era_name</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">same_year?</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">year</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">year</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">same_month?</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">month</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">month</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">same_day?</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">day</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">day</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>このように値オブジェクトを使うことで、JapaneseCalendarDate というコンパクトな範囲に責任を限定し、実装を適切な場所に移すことができました。もし日付を扱うクラスが増えても同じ実装を再利用すれば OK です。</p>
+
+<p>値オブジェクトは、責任を適切に分割することに加えて、業務知識の語彙を実装にマッピングする点でも意味があります。これにより実装と業務知識のモデルの差を小さくできます。</p>
+
+<p>なお、Rails では <code>compose_of</code> メソッドを使うことで簡単に値オブジェクトを扱うことができます。さきほどの Holiday クラスの例では以下のような実装になります。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Holiday</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">compose_of</span> <span class="ss">:japanese_calendar_date</span><span class="p">,</span> <span class="ss">mapping</span><span class="p">:</span> <span class="o">[</span><span class="sx">%w[era_name era_name]</span><span class="p">,</span> <span class="sx">%w[year year]</span><span class="p">,</span> <span class="sx">%w[month month]</span><span class="p">,</span> <span class="sx">%w[day day]</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>compose_of</code> はいくつかオプションをとれます。本書には各オプションの解説と以下のような IP アドレスの例も載っています。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">compose_of</span> <span class="ss">:ip_address</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">class_name</span><span class="p">:</span> <span class="s2">&quot;IPAddr&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">mapping</span><span class="p">:</span> <span class="sx">%w[ip to_i]</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">constructor</span><span class="p">:</span> <span class="no">Proc</span><span class="o">.</span><span class="n">new</span><span class="p">{</span><span class="o">|</span><span class="n">ip</span><span class="o">|</span> <span class="no">IPAddr</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span> <span class="no">Socket</span><span class="o">::</span><span class="no">AF_INET</span><span class="p">)</span> <span class="p">},</span>
+</span><span class='line'>  <span class="ss">converter</span><span class="p">:</span> <span class="no">Proc</span><span class="o">.</span><span class="n">new</span><span class="p">{</span><span class="o">|</span><span class="n">ip</span><span class="o">|</span> <span class="n">ip</span><span class="o">.</span><span class="n">is_a?</span><span class="p">(</span><span class="nb">Integer</span><span class="p">)</span> <span class="p">?</span> <span class="no">IPAddr</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span> <span class="no">Socket</span><span class="o">::</span><span class="no">AF_INET</span><span class="p">)</span> <span class="p">:</span> <span class="no">IPAddr</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">ip</span><span class="o">.</span><span class="n">to_s</span><span class="p">)</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>compose_of</code> を使うと宣言的に記述できるというメリットがありますが、オプションが複雑でわかりづらいというデメリットもあります。そのような場合は素直に自分で定義したほうがいいでしょう。</p>
+
+<h3>Concern: 関心事の分離</h3>
+
+<p>Rails 4 から追加された app/models/concerns や app/controllers/concerns といったディレクトリは、開発者の関心事をまとめたモジュール（Concern モジュール）を配置することが期待されています。</p>
+
+<p>ある機能を実現するために必要な処理を Concern モジュールとして分離することで、モデルやコントローラから特定の機能のためにのみ利用されるメソッドやバリデーションの実装を分離できます。もしこの機能に変更が生じたとしても、その影響範囲を想定しやすくなります。</p>
+
+<p>ActiveRecord を拡張するプラグインや特定の機能を提供する gem はたくさんありますが、アプリケーション特有の機能を追加したり、外部の gem にロックインされるのを避けたりといったときには Concern を使うと便利です。</p>
+
+<h4>ActiveSupport::Concern</h4>
+
+<p>Rails 内部でも使われている ActiveSupport::Concern は Concern に関連した記述を補助してくれます。例えば、</p>
+
+<ul>
+<li><code>included</code> メソッドにブロックを渡す機能を追加する。include されたときにフックして実行する処理を直感的に記述できる</li>
+<li>クラスメソッドを追加するための記述を補助</li>
+<li>モジュールの依存関係を管理する</li>
+</ul>
+
+
+<p>といった機能です。個人的には、特に最後の依存関係の管理機能が便利だと思っています（自前実装でハマった経験ありorz）。</p>
+
+<p><a href="http://api.rubyonrails.org/classes/ActiveSupport/Concern.html">ActiveSupport::Concern</a> にある例を見ると機能がよくわかると思います。リンク先では依存関係のところはさらっと流していますが、本書では詳しく解説されています。</p>
+
+<p>また本書には以下も詳しく載っていますので、理解を深めたい人や実例が見たいという人は一見の価値ありだと思います。</p>
+
+<ul>
+<li>ActiveSupport::Concern がどのような仕組みでこれらの機能を実現しているか</li>
+<li>ActiveSupport::Concern を使った論理削除機能の実装例</li>
+<li>バスの配車スケジュールを管理するアプリケーションで「予約」と「予約希望」が持つ共通の振る舞いを Concern モジュールに分離した話</li>
+</ul>
+
+
+<h4>Module#concerning</h4>
+
+<p>Rails 4.1 で追加された <code>Module#concerning</code> を使うとインラインモジュールを簡単に記述できます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">concerning</span> <span class="ss">:Segment</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">included</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">scope</span> <span class="ss">:male</span><span class="p">,</span> <span class="o">-&gt;</span><span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">sex</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>      <span class="n">scope</span> <span class="ss">:female</span><span class="p">,</span> <span class="o">-&gt;</span><span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">sex</span><span class="p">:</span> <span class="s2">&quot;female&quot;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>      <span class="n">scope</span> <span class="ss">:young</span><span class="p">,</span> <span class="o">-&gt;</span><span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="s2">&quot;age &lt; ?&quot;</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>Module#concerning</code> の主な用途は <a href="https://github.com/rails/rails/blob/d4d041c1fe55c10a786a4a1a7ff0c34867944b2f/activesupport/lib/active_support/core_ext/module/concerning.rb">concerning メソッドが定義してあるソースコード</a> にコメントとして書いてあります。ざっくりまとめると以下のような感じです。</p>
+
+<ul>
+<li>クラスが大きくなってくると、特定の関心事として切り出せるような関連性のある処理/振る舞いが出てくる</li>
+<li>場合によっては、別ファイルに切り出すほどではない（切り出すと逆に読みづらくなる）ということがある</li>
+<li>クラス内で <code>module Hoge; ....; end; include Hoge</code> とすれば、まとまりとして切り出して見通しがよくなる</li>
+<li><code>Module#concerning</code> を使うことで、切り出したときの本質的でないコードを減らして簡潔に記述できる</li>
+</ul>
+
+
+<h3>サービスクラス</h3>
+
+<p>1つの機能を完結させるために非常に複雑な処理が必要になったり、特定のエンティティや値オブジェクトに所属させると不自然になってしまう処理が出てきたりしたときは、「サービス」という概念を使うと有効な場合があります。一連の処理をサービスクラスに抽出することで、モデルが過剰に複雑になることを防ぐことができます。</p>
+
+<p>本書で紹介されているサービスクラスの特徴は以下のようなものです。</p>
+
+<ul>
+<li>Rails の世界で考えた場合、コントローラとモデルの中間のような存在。コントローラがユーザからのリクエストを呼び出すインターフェイスで、サービスがモデルが行う処理をとりまとめて実行するためのインターフェイス</li>
+<li>処理そのものをカプセル化し責務を分離したもの</li>
+<li>「認証サービス」や「価格計算サービス」などの機能や振る舞いそのものを表す名前を持つ</li>
+<li>適切に設計されたサービスクラスは基本的に状態を持たない。入力が同じなら同一の結果を返す</li>
+<li>業務知識と実装のメンタルモデルを一致させる。システムが対象としている業務領域の知識と照らし合わせて、より自然な形でアプリケーションを設計するための手段</li>
+<li>システムが対象としている業務に結びついた名前付けができていない場合、サービスクラスを利用する対象としては不適切な可能性がある</li>
+</ul>
+
+
+<p>サービスクラスの例としてよく挙げられるのが銀行口座間の振替処理の実装です。本書ではこの例を Rails で実装したら……ということでサービスクラスの解説をしています。考え方自体は Ruby や Rails に限定された話ではないので、本書のサンプルを見なくてもいいと思います。本書で見るとすると、サービスクラス用に app/services ディレクトリを切って autoload_paths に追加するあたりでしょうか。</p>
+
+<p>本書では実装例を示した後に以下のようにサービスクラスを利用するメリットを説明しています。</p>
+
+<ul>
+<li>複数の役割を持つエンティティが登場し、それを1つのトランザクションとしてまとめて表現するのが自然なときなどにはサービスクラスが有効</li>
+<li>あるモデルに直接実装しようとすると、トランザクションの起点をインスタンスメソッドとして配置するのは不自然</li>
+<li>モデルのクラスメソッドとして実装すると、特定の機能にのみ関わる振る舞いがクラス全体で必要な振る舞いであるかのように見えてしまう</li>
+<li>インスタンスメソッドにしろクラスメソッドにしろモデルに直接実装すると、機能が増えるに従ってどんどんモデルが肥大化する</li>
+<li>明らかに業務知識を表す振る舞いなので、コントローラに実装してしまったら、業務知識をモデル層に集約して変更に対する柔軟性を高めるというレイヤーどうしの独立性を失う</li>
+</ul>
+
+
+<p>そして最後に、サービスクラスを利用する際の注意点にも次のように触れています。</p>
+
+<ul>
+<li>本来、システムの中核となるビジネスロジックはモデルに集約されているのが望ましい。サービスクラスを濫用すると、本来モデルにあるのが自然な振る舞いまでサービスクラスに漏れ出てしまう</li>
+<li>サービスクラスは処理や振る舞いをカプセル化しているため、手続き的な記述になりがち。同じような振る舞いが分散して実装され、設計の柔軟性が失われる危険がある</li>
+<li>そうなると振る舞いの再利用性が低下し、最終的にアプリケーション全体のメンテナンス性を損なうことになる</li>
+<li>サービスはあくまで処理の大枠を表現するものであり、より詳細なレベルの振る舞いは各モデルが責任を持つべき</li>
+</ul>
+
+
+<h2>第10章　Rails を拡張する</h2>
+
+<p>Rack Middleware と Railtie を自分でつくり Rails を拡張する方法について書かれた章です。以下、本書に書かれている内容を簡単にまとめます。本書では豊富なサンプルコードと詳しい解説が書かれています。</p>
+
+<h3>Rack Middleware</h3>
+
+<p>Rack というのは、「たくさんのアプリケーションサーバとたくさんの Ruby フレームワークをつなぐ規約」です。Python の PSGI の規約を基に提案されたそうです。以下の規約に準拠していれば、Rack に準拠したアプリケーションです。</p>
+
+<ul>
+<li>1つの Hash オブジェクト（env）を引数にとる call メソッドがある</li>
+<li>call メソッドは「ステータスコード、ヘッダーを表現した Hash、each に反応するオブジェクト」の3つの要素を持った配列を返す</li>
+</ul>
+
+
+<p>Rack Middleware は、「Rack に対応したアプリケーションに機能を追加するためのミドルウェアのこと」です。以下の特徴を持ったクラスは Rack Middleware として利用できます。</p>
+
+<ul>
+<li>別の Rack アプリケーションを第1引数にとった initialize メソッドがある</li>
+<li>Rack アプリケーションと同様、env をとって配列を返す call メソッドがある</li>
+</ul>
+
+
+<p>ru ファイル内で use メソッドにこのクラスを渡すことで Rack Middleware を利用します。複数の use も可能です。</p>
+
+<p>Rails で Rack Middleware を使う場合は、config/application.rb または config/environments/*.rb 内で use メソッドを呼び出します。</p>
+
+<figure class='code'><figcaption><span>config/application.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">AwesomeEvents</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Application</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Application</span>
+</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">middleware</span><span class="o">.</span><span class="n">use</span> <span class="no">AwesomeMiddleware</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>有名な Rack Middleware としては以下のようなものがあります。</p>
+
+<table>
+<thead>
+<tr>
+<th> 名前                                                       </th>
+<th> 内容                                                                                                              </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> Rack::Auth::Digest                                         </td>
+<td> Digest 認証をかける。<a href="http://rack.github.io/">Rack gem</a> に標準添付                                                </td>
+</tr>
+<tr>
+<td> <a href="https://github.com/cyu/rack-cors">Rack::Cors</a>             </td>
+<td> Cross-Origin Resource Sharing（ドメインをまたいだ Ajax リクエスト）を実現するために必要なヘッダーを追加してくれる </td>
+</tr>
+<tr>
+<td> <a href="https://github.com/jtrupiano/rack-rewrite">Rack::Rewrite</a> </td>
+<td> アクセスされた URL を別のものに変換する                                                                           </td>
+</tr>
+<tr>
+<td> <a href="https://github.com/intridea/omniauth">OmniAuth</a>           </td>
+<td> さまざまな外部認証の仕組みとの連携を Rack のレイヤーで済ませてしまう                                              </td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>Railtie</h3>
+
+<p>Railtie とは、Rails 3 以降に導入された公式のプラグイン機構です。Railtie の仕組みを使うと、次のような処理を完結に実現できます（<a href="http://api.rubyonrails.org/classes/Rails/Railtie.html">公式ドキュメント</a>）。</p>
+
+<ul>
+<li>初期化処理（イニシャライザ）を実行する</li>
+<li>ジェネレータや Rake タスクを Rails に追加する</li>
+<li>Rails の設定項目を追加し、environments ごとにカスタマイズ可能にする</li>
+<li>ActiveSupport::Notifications のための固有のサブスクライバを設定する</li>
+</ul>
+
+
+<p>Railtie を用いたプラグインのつくり方には大きく3パターンの方法があります。</p>
+
+<table>
+<thead>
+<tr>
+<th> 型                  </th>
+<th> 特徴                                                                        </th>
+<th> 例                                                                                                            </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> Railtie 型          </td>
+<td> Railtie が提供する基本的な機能のみを利用する                                </td>
+<td>                                                                                                               </td>
+</tr>
+<tr>
+<td> Engine 型           </td>
+<td> Railtie 型に加えて独自のコントローラやルーティング、モデルなどを提供する    </td>
+<td> <a href="https://github.com/plataformatec/devise">Devise</a>、<a href="https://github.com/doorkeeper-gem/doorkeeper">Doorkeeper</a> </td>
+</tr>
+<tr>
+<td> Mountable Engine 型 </td>
+<td> Engine 型よりもさらに独立性の高いアプリケーションをプラグインとして提供する </td>
+<td> <a href="https://github.com/sferik/rails_admin">RailsAdmin</a>、<a href="http://refinerycms.com/">Refinery CMS</a>                  </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>Railtie 型のプラグインは <code>rails plugin new hoge</code> で雛形をつくれます。</p>
+
+<p>さらに lib/hoge/railtie.rb で設定を行います。本書の例では ネームスペースを切って設定項目を追加するのと、Rails のモジュールを先読みする対象のリストである <code>eager_load_namespaces</code> への追加を行っています。Rails のコアライブラリが読み込まれたあとに走るべき処理は <code>initializer</code> というブロックを用いて定義します。<code>ActiveSupport.on_load</code> ブロックを使うと、Rails の各コアコンポーネントの読み込みにフックして実行されるべき処理内容を記述できます。</p>
+
+<p>Engine 型のプラグインは <code>rails plugin new hoge --full</code> のように <code>--full</code> オプションをつけることで雛形をつくれます。</p>
+
+<p>さらに以下のような lib/hoge/engine.rb をつくれば OK です。</p>
+
+<figure class='code'><figcaption><span>lib/hoge/engine.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Hoge</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Engine</span> <span class="o">&lt;</span> <span class="o">::</span><span class="no">Rails</span><span class="o">::</span><span class="no">Engine</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Mountable Engine 型のプラグインは <code>rails plugin new hoge --mountable</code> のように <code>--mountable</code> オプションをつけることで雛形をつくれます。</p>
+
+<p>さらに Engine 型と似ていますが以下のような Engine ファイルをつくります。Hoge 以下のネームスペースに定義されたアプリを独立した Rails アプリケーションとして利用するという意味です。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Hoge</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Engine</span> <span class="o">&lt;</span> <span class="o">::</span><span class="no">Rails</span><span class="o">::</span><span class="no">Engine</span>
+</span><span class='line'>    <span class="n">isolate_namespace</span> <span class="no">Hoge</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>コントローラなども app/controllers/hoge/*_controller.rb のようにネームスペース以下に生成されます。</p>
+
+<p>他の Rails アプリで使う場合、config/routes.rb で以下のように mount 宣言をします。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">mount</span> <span class="no">Hoge</span><span class="o">::</span><span class="no">Engine</span> <span class="o">=&gt;</span> <span class="s2">&quot;/status&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Wordpress To Github Pages And Octopress]]></title>
+    <link href="http://kg8m.github.io/blog/2014/08/26/wordpress-to-github-pages-and-octopress"/>
+    <updated>2014-08-26T00:00:00+09:00</updated>
+    <id>http://kg8m.github.io/blog/2014/08/26/wordpress-to-github-pages-and-octopress</id>
+    <content type="html"><![CDATA[
 ]]></content>
   </entry>
   
