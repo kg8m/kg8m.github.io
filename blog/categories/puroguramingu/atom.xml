@@ -4,7 +4,7 @@
   <title><![CDATA[Category: プログラミング | きにきじ]]></title>
   <link href="http://kg8m.github.io/blog/categories/puroguramingu/atom.xml" rel="self"/>
   <link href="http://kg8m.github.io/"/>
-  <updated>2014-09-29T00:00:07+09:00</updated>
+  <updated>2014-09-29T17:42:00+09:00</updated>
   <id>http://kg8m.github.io/</id>
   <author>
     <name><![CDATA[kg8m]]></name>
@@ -215,7 +215,7 @@ Event.search(start_time_gteq: Time.now)  # equal to Event.where("start_time &gt;
 
 <p>ダブル（他のオブジェクトの代わりをするオブジェクト）、スタブ（メソッドを仮に定義し、メソッドが実行されたときに任意の値を返させる）についても触れられています。<a href="https://www.google.co.jp/search?q=double+stub+mock">ダブル、スタブ、モックの違いについてはいろいろ情報があるのでそちらに譲ります</a>（ちなみにこのへんの違いは本書を読んでも詳しくはわかりません）。</p>
 
-<p><code>assign</code> メソッドでインスタンス変数に値を設定できるようなのですが、普通に <code>@hoge = fuga</code> と書くのに比べてどういったメリットがあるのでしょうか。要調査です。</p>
+<p><code>assign</code> メソッドでインスタンス変数に値を設定できます。ただ、<code>@hoge = fuga</code> と書いたり <code>instance_variable_set</code> したりするのとの違いがわかっていません。そのうち調べます。</p>
 
 <p>capybara はこれまで使ったことがありませんでした。エンドツーエンドのテストに関して個人的に気になったポイントは以下です。</p>
 
