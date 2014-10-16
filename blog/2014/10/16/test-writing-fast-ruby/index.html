@@ -164,8 +164,8 @@ Hash# &hellip;">
 </span><span class="line">
 </span><span class="line"><span class="k">def</span> <span class="nf">__benchmark__</span><span class="p">(</span><span class="n">labels_and_procs</span><span class="p">)</span>
 </span><span class="line">  <span class="no">Benchmark</span><span class="o">.</span><span class="n">ips</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
-</span><span class="line">    <span class="n">labels_and_procs</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">label</span><span class="p">,</span> <span class="nb">proc</span><span class="o">|</span>
-</span><span class="line">      <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="n">label</span><span class="si">}</span><span class="s2">:"</span><span class="p">){</span> <span class="nb">proc</span><span class="o">.</span><span class="n">call</span> <span class="p">}</span>
+</span><span class="line">    <span class="n">labels_and_procs</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">label</span><span class="p">,</span> <span class="n">_proc</span><span class="o">|</span>
+</span><span class="line">      <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="n">label</span><span class="si">}</span><span class="s2">:"</span><span class="p">){</span> <span class="n">_proc</span><span class="o">.</span><span class="n">call</span> <span class="p">}</span>
 </span><span class="line">    <span class="k">end</span>
 </span><span class="line">  <span class="k">end</span>
 </span><span class="line"><span class="k">end</span>

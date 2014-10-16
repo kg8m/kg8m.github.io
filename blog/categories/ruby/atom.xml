@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | きにきじ]]></title>
   <link href="http://kg8m.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://kg8m.github.io/"/>
-  <updated>2014-10-16T22:07:19+09:00</updated>
+  <updated>2014-10-16T22:11:41+09:00</updated>
   <id>http://kg8m.github.io/</id>
   <author>
     <name><![CDATA[kg8m]]></name>
@@ -42,8 +42,8 @@
 
 def __benchmark__(labels_and_procs)
   Benchmark.ips do |x|
-    labels_and_procs.each do |label, proc|
-      x.report("#{label}:"){ proc.call }
+    labels_and_procs.each do |label, _proc|
+      x.report("#{label}:"){ _proc.call }
     end
   end
 end
