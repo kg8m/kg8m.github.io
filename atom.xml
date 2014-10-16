@@ -4,7 +4,7 @@
   <title><![CDATA[きにきじ]]></title>
   <link href="http://kg8m.github.io/atom.xml" rel="self"/>
   <link href="http://kg8m.github.io/"/>
-  <updated>2014-10-16T22:04:17+09:00</updated>
+  <updated>2014-10-16T22:07:19+09:00</updated>
   <id>http://kg8m.github.io/</id>
   <author>
     <name><![CDATA[kg8m]]></name>
@@ -12,6 +12,561 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Writing Fast Ruby を検証してみた]]></title>
+    <link href="http://kg8m.github.io/blog/2014/10/16/test-writing-fast-ruby/"/>
+    <updated>2014-10-16T22:00:00+09:00</updated>
+    <id>http://kg8m.github.io/blog/2014/10/16/test-writing-fast-ruby</id>
+    <content type="html"><![CDATA[<p>少し前に <a href="http://blog.mah-lab.com/2014/09/27/writing-fast-ruby/">Writing Fast Rubyというスライドが良い | mah365</a> という記事が話題になっていました。内容は <a href="https://speakerdeck.com/sferik/writing-fast-ruby">Writing Fast Ruby</a> というスライドの紹介で、リーダビリティを維持しながらパフォーマンスを出せるよという話です。おもしろいなーと流してしまってもよかったのですが、どうせなら手元でも確かめてみようというのが今回のこの記事です。</p>
+
+<!-- more -->
+
+
+<h2>使った Ruby のバージョン</h2>
+
+<p>最初は普段よく使っている Ruby 1.8.6-p369 でやってみたんですが（バージョンアップしたいですがなかなかリソースを確保できず……）、一部スライドと違う結果が出たので、バージョンの違いがあるのかもということで以下のバージョンで試してみました。</p>
+
+<ul>
+<li>Ruby 1.8.7-p375</li>
+<li>Ruby 1.9.3-p545</li>
+<li>Ruby 2.1.2</li>
+</ul>
+
+
+<h2>便利メソッドを定義</h2>
+
+<p>毎回計測用のコードを書くのがだるいので、次のような便利メソッドを定義しました。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s2">&quot;benchmark/ips&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">__benchmark__</span><span class="p">(</span><span class="n">labels_and_procs</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">Benchmark</span><span class="o">.</span><span class="n">ips</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">labels_and_procs</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">label</span><span class="p">,</span> <span class="nb">proc</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">label</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">){</span> <span class="nb">proc</span><span class="o">.</span><span class="n">call</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>この記事で <code>__benchmark__</code> というメソッド呼び出しが出てきたらこれのことです。</p>
+
+<p><a href="https://github.com/evanphx/benchmark-ips">benchmark-ips gem</a> いいですね。普通の Benchmark だと、何回処理を繰り返すかを決めないといけませんが、適切な回数がいまいちわからなかったりします。その点、benchmark-ips なら1秒間に何回処理できたかという評価なのでやりやすいです。</p>
+
+<h2>比較結果</h2>
+
+<h3>Proc#call vs. yield</h3>
+
+<h4>使用したコード</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">slow</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">block</span><span class="o">.</span><span class="n">call</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">fast</span>
+</span><span class='line'>  <span class="k">yield</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">__benchmark__</span><span class="p">(</span>
+</span><span class='line'>  <span class="ss">block</span><span class="p">:</span> <span class="nb">proc</span><span class="p">{</span> <span class="n">slow</span><span class="p">{</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">}</span> <span class="p">},</span>
+</span><span class='line'>  <span class="k">yield</span><span class="p">:</span> <span class="nb">proc</span><span class="p">{</span> <span class="n">fast</span><span class="p">{</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">}</span> <span class="p">}</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>結果</h4>
+
+<table>
+<thead>
+<tr>
+<th> Ruby のバージョン </th>
+<th> <code>block</code>                  </th>
+<th> <code>yield</code>                  </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 2.1.2             </td>
+<td> 1,104,005.6 (±1.9%) i/s </td>
+<td> 4,310,444.0 (±5.2%) i/s </td>
+</tr>
+<tr>
+<td> 1.9.3             </td>
+<td> 1,212,795.3 (±9.9%) i/s </td>
+<td> 4,189,680.6 (±1.5%) i/s </td>
+</tr>
+<tr>
+<td> 1.8.7             </td>
+<td> 273,890.7 (±5.4%) i/s   </td>
+<td> 955,918.6 (±3.7%) i/s   </td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>Block vs. Symbol#to_proc</h3>
+
+<h4>使用したコード</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">__benchmark__</span><span class="p">(</span>
+</span><span class='line'>  <span class="ss">block</span><span class="p">:</span>   <span class="nb">proc</span><span class="p">{</span> <span class="p">(</span><span class="mi">1</span> <span class="o">.</span><span class="n">.</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">i</span><span class="o">.</span><span class="n">to_s</span> <span class="p">}</span> <span class="p">},</span>
+</span><span class='line'>  <span class="ss">to_proc</span><span class="p">:</span> <span class="nb">proc</span><span class="p">{</span> <span class="p">(</span><span class="mi">1</span> <span class="o">.</span><span class="n">.</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:to_s</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>結果</h4>
+
+<table>
+<thead>
+<tr>
+<th> Ruby のバージョン </th>
+<th> <code>block</code>               </th>
+<th> <code>to_proc</code>             </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 2.1.2             </td>
+<td> 62,191.0 (±2.3%) i/s </td>
+<td> 71,240.2 (±3.1%) i/s </td>
+</tr>
+<tr>
+<td> 1.9.3             </td>
+<td> 61,063.0 (±2.3%) i/s </td>
+<td> 74,238.2 (±1.4%) i/s </td>
+</tr>
+<tr>
+<td> 1.8.7             </td>
+<td> 25,609.1 (±1.6%) i/s </td>
+<td> 18,905.6 (±3.1%) i/s </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>1.8.7 では逆の結果になりました。</p>
+
+<h3>Enumerable#map and Array#flatten vs. Enumerable#flat_map</h3>
+
+<h4>使用したコード</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">__benchmark__</span><span class="p">(</span>
+</span><span class='line'>  <span class="ss">map_then_flatten</span><span class="p">:</span> <span class="nb">proc</span><span class="p">{</span> <span class="p">(</span><span class="mi">1</span> <span class="o">.</span><span class="n">.</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="o">[</span><span class="n">i</span><span class="o">.</span><span class="n">to_s</span><span class="p">,</span> <span class="n">i</span><span class="o">]</span> <span class="p">}</span><span class="o">.</span><span class="n">flatten</span> <span class="p">},</span>
+</span><span class='line'>  <span class="ss">flat_map</span><span class="p">:</span>         <span class="nb">proc</span><span class="p">{</span> <span class="p">(</span><span class="mi">1</span> <span class="o">.</span><span class="n">.</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">flat_map</span><span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="o">[</span><span class="n">i</span><span class="o">.</span><span class="n">to_s</span><span class="p">,</span> <span class="n">i</span><span class="o">]</span> <span class="p">}</span> <span class="p">}</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>結果</h4>
+
+<table>
+<thead>
+<tr>
+<th> Ruby のバージョン </th>
+<th> <code>map_then_flatten</code>    </th>
+<th> <code>flat_map</code>            </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 2.1.2             </td>
+<td> 27,736.4 (±1.4%) i/s </td>
+<td> 42,792.6 (±0.9%) i/s </td>
+</tr>
+<tr>
+<td> 1.9.3             </td>
+<td> 27,390.5 (±1.5%) i/s </td>
+<td> 42,583.9 (±2.7%) i/s </td>
+</tr>
+<tr>
+<td> 1.8.7             </td>
+<td> -                     </td>
+<td> -                     </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>1.8.7 には <code>Enumerable#flat_map</code> がないので対象外としました。</p>
+
+<h3>Hash#merge vs. Hash#merge!</h3>
+
+<h4>使用したコード</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">__benchmark__</span><span class="p">(</span>
+</span><span class='line'>  <span class="ss">merge</span><span class="p">:</span>               <span class="nb">proc</span><span class="p">{</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="o">].</span><span class="n">inject</span><span class="p">({}){</span><span class="o">|</span><span class="n">h</span><span class="p">,</span> <span class="n">e</span><span class="o">|</span> <span class="n">h</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">e</span> <span class="o">=&gt;</span> <span class="n">e</span><span class="p">)</span> <span class="p">}</span> <span class="p">},</span>
+</span><span class='line'>  <span class="ss">merge_bang</span><span class="p">:</span>          <span class="nb">proc</span><span class="p">{</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="o">].</span><span class="n">inject</span><span class="p">({}){</span><span class="o">|</span><span class="n">h</span><span class="p">,</span> <span class="n">e</span><span class="o">|</span> <span class="n">h</span><span class="o">.</span><span class="n">merge!</span><span class="p">(</span><span class="n">e</span> <span class="o">=&gt;</span> <span class="n">e</span><span class="p">)</span> <span class="p">}</span> <span class="p">},</span>
+</span><span class='line'>  <span class="ss">merge_bang_with_dup</span><span class="p">:</span> <span class="nb">proc</span><span class="p">{</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="o">].</span><span class="n">inject</span><span class="p">({}){</span><span class="o">|</span><span class="n">h</span><span class="p">,</span> <span class="n">e</span><span class="o">|</span> <span class="n">_h</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">dup</span><span class="p">;</span> <span class="n">_h</span><span class="o">.</span><span class="n">merge!</span><span class="p">(</span><span class="n">e</span> <span class="o">=&gt;</span> <span class="n">e</span><span class="p">)</span> <span class="p">}</span> <span class="p">}</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>Hash#merge</code> と <code>Hash#merge!</code> ではオブジェクト生成分のコストが違うのは当たり前なので、比較のためにわざわざ <code>dup</code> してから <code>merge!</code> するケースも加えてみました。</p>
+
+<h4>結果</h4>
+
+<table>
+<thead>
+<tr>
+<th> Ruby のバージョン </th>
+<th> <code>merge</code>                </th>
+<th> <code>merge_bang</code>           </th>
+<th> <code>merge_bang_with_dup</code>  </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 2.1.2             </td>
+<td> 135,788.7 (±3.4%) i/s </td>
+<td> 274,784.1 (±3.8%) i/s </td>
+<td> 135,854.6 (±3.1%) i/s </td>
+</tr>
+<tr>
+<td> 1.9.3             </td>
+<td> 121,393.1 (±5.4%) i/s </td>
+<td> 216,329.6 (±7.2%) i/s </td>
+<td> 118,098.3 (±3.2%) i/s </td>
+</tr>
+<tr>
+<td> 1.8.7             </td>
+<td> 95,286.3 (±3.4%) i/s  </td>
+<td> 147,247.5 (±3.8%) i/s </td>
+<td> 88,805.2 (±3.6%) i/s  </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>やはり <code>merge</code> と <code>dup</code> + <code>merge!</code> は同じくらいですね。<code>Hash#merge</code> が内部的に <code>dup</code> しているので、その分のコストが影響しているんだと思います。</p>
+
+<h3>Hash#merge! vs. Hash#[]=</h3>
+
+<h4>使用したコード</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">__benchmark__</span><span class="p">(</span>
+</span><span class='line'>  <span class="ss">:merge!</span> <span class="o">=&gt;</span> <span class="nb">proc</span><span class="p">{</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="o">].</span><span class="n">each_with_object</span><span class="p">({}){</span><span class="o">|</span><span class="n">e</span><span class="p">,</span> <span class="n">h</span><span class="o">|</span> <span class="n">h</span><span class="o">.</span><span class="n">merge!</span><span class="p">(</span><span class="n">e</span> <span class="o">=&gt;</span> <span class="n">e</span><span class="p">)</span> <span class="p">}</span> <span class="p">},</span>
+</span><span class='line'>  <span class="ss">:[]=</span>    <span class="o">=&gt;</span> <span class="nb">proc</span><span class="p">{</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="o">].</span><span class="n">each_with_object</span><span class="p">({}){</span><span class="o">|</span><span class="n">e</span><span class="p">,</span> <span class="n">h</span><span class="o">|</span> <span class="n">h</span><span class="o">[</span><span class="n">e</span><span class="o">]</span> <span class="o">=</span> <span class="n">e</span> <span class="p">}</span> <span class="p">}</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>1.8.7 では <code>Enumerable#each_with_object</code> が使えないので、次のモンキーパッチをあてました。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># http://apidock.com/rails/Enumerable/each_with_object</span>
+</span><span class='line'><span class="no">Enumerable</span><span class="o">.</span><span class="n">module_eval</span> <span class="k">do</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">each_with_object</span><span class="p">(</span><span class="n">memo</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">to_enum</span> <span class="ss">:each_with_object</span><span class="p">,</span> <span class="n">memo</span> <span class="k">unless</span> <span class="nb">block_given?</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">element</span><span class="o">|</span>
+</span><span class='line'>      <span class="k">yield</span> <span class="n">element</span><span class="p">,</span> <span class="n">memo</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">memo</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>結果</h4>
+
+<table>
+<thead>
+<tr>
+<th> Ruby のバージョン </th>
+<th> <code>merge!</code>               </th>
+<th> <code>[]=</code>                  </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 2.1.2             </td>
+<td> 280,923.3 (±4.8%) i/s </td>
+<td> 682,806.6 (±3.4%) i/s </td>
+</tr>
+<tr>
+<td> 1.9.3             </td>
+<td> 217,844.0 (±5.6%) i/s </td>
+<td> 486,892.0 (±7.4%) i/s </td>
+</tr>
+<tr>
+<td> 1.8.7             </td>
+<td> 133,301.3 (±3.8%) i/s </td>
+<td> 212,748.6 (±1.7%) i/s </td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>Hash#fetch vs. Hash#fetch with block</h3>
+
+<h4>使用したコード</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">__benchmark__</span><span class="p">(</span>
+</span><span class='line'>  <span class="ss">arg_found</span><span class="p">:</span>       <span class="nb">proc</span><span class="p">{</span> <span class="p">{</span> <span class="ss">:rails</span> <span class="o">=&gt;</span> <span class="ss">:club</span> <span class="p">}</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:rails</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span> <span class="o">.</span><span class="n">.</span> <span class="mi">9</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span><span class="p">)</span> <span class="p">},</span>
+</span><span class='line'>  <span class="ss">block_found</span><span class="p">:</span>     <span class="nb">proc</span><span class="p">{</span> <span class="p">{</span> <span class="ss">:rails</span> <span class="o">=&gt;</span> <span class="ss">:club</span> <span class="p">}</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:rails</span><span class="p">){</span> <span class="p">(</span><span class="mi">0</span> <span class="o">.</span><span class="n">.</span> <span class="mi">9</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span> <span class="p">}</span> <span class="p">}</span>
+</span><span class='line'>  <span class="ss">arg_not_found</span><span class="p">:</span>   <span class="nb">proc</span><span class="p">{</span> <span class="p">{</span> <span class="ss">:rails</span> <span class="o">=&gt;</span> <span class="ss">:club</span> <span class="p">}</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:rail</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span> <span class="o">.</span><span class="n">.</span> <span class="mi">9</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span><span class="p">)</span> <span class="p">},</span>
+</span><span class='line'>  <span class="ss">block_not_found</span><span class="p">:</span> <span class="nb">proc</span><span class="p">{</span> <span class="p">{</span> <span class="ss">:rails</span> <span class="o">=&gt;</span> <span class="ss">:club</span> <span class="p">}</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:rail</span><span class="p">){</span> <span class="p">(</span><span class="mi">0</span> <span class="o">.</span><span class="n">.</span> <span class="mi">9</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span> <span class="p">}</span> <span class="p">}</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>Hash#fetch</code> は第1引数に与えたキーが見つかれば対応するバリューを、見つからなければ第2引数またはブロックの結果を返します。元記事ではキーが見つかるケースしかなかったので、見つからないケースも試してみました。</p>
+
+<h4>結果</h4>
+
+<table>
+<thead>
+<tr>
+<th> Ruby のバージョン </th>
+<th> <code>arg_found</code>            </th>
+<th> <code>block_found</code>             </th>
+<th> <code>arg_not_found</code>         </th>
+<th> <code>block_not_found</code>       </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 2.1.2             </td>
+<td> 750,170.2 (±4.5%) i/s </td>
+<td> 1,391,370.0 (±7.9%) i/s  </td>
+<td> 546,238.9 (±12.7%) i/s </td>
+<td> 562,627.9 (±15.0%) i/s </td>
+</tr>
+<tr>
+<td> 1.9.3             </td>
+<td> 737,928.4 (±5.2%) i/s </td>
+<td> 1,494,539.6 (±10.2%) i/s </td>
+<td> 741,229.0 (±5.0%) i/s  </td>
+<td> 705,287.3 (±5.5%) i/s  </td>
+</tr>
+<tr>
+<td> 1.8.7             </td>
+<td> 449,828.5 (±2.4%) i/s </td>
+<td> 770,142.5 (±3.8%) i/s    </td>
+<td> 447,578.8 (±2.4%) i/s  </td>
+<td> 419,708.7 (±3.6%) i/s  </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>キーが見つからなかったときの代替値をブロックで与える場合、キーが見つかればブロックの処理が評価されないので、必ず評価されてしまう第2引数に与える場合よりも高速です。</p>
+
+<p>ただ、キーが見つからないように第1引数を与えると結果は変わります。ほとんど変わらないか、キーが見つかるケースと逆の結果になります。ブロックの処理を評価する分のコストが影響しているのでしょうか。</p>
+
+<h3>String#gsub vs. String#tr</h3>
+
+<h4>使用したコード</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">__benchmark__</span><span class="p">(</span>
+</span><span class='line'>  <span class="nb">gsub</span><span class="p">:</span> <span class="nb">proc</span><span class="p">{</span> <span class="s2">&quot;Hello world. Today is a happy day!!&quot;</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="p">},</span>
+</span><span class='line'>  <span class="ss">tr</span><span class="p">:</span>   <span class="nb">proc</span><span class="p">{</span> <span class="s2">&quot;Hello world. Today is a happy day!!&quot;</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>結果</h4>
+
+<table>
+<thead>
+<tr>
+<th> Ruby のバージョン </th>
+<th> <code>gsub</code>                 </th>
+<th> <code>tr</code>                     </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 2.1.2             </td>
+<td> 294,032.8 (±1.7%) i/s </td>
+<td> 1,177,266.7 (±2.3%) i/s </td>
+</tr>
+<tr>
+<td> 1.9.3             </td>
+<td> 315,169.3 (±1.7%) i/s </td>
+<td> 1,213,505.5 (±2.1%) i/s </td>
+</tr>
+<tr>
+<td> 1.8.7             </td>
+<td> 214,505.2 (±2.1%) i/s </td>
+<td> 781,031.4 (±4.6%) i/s   </td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>Parallel vs. sequential assignment</h3>
+
+<h4>使用したコード</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">__benchmark__</span><span class="p">(</span>
+</span><span class='line'>  <span class="ss">parallel</span><span class="p">:</span>   <span class="nb">proc</span><span class="p">{</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="p">},</span>
+</span><span class='line'>  <span class="ss">sequential</span><span class="p">:</span> <span class="nb">proc</span><span class="p">{</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">}</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>結果</h4>
+
+<table>
+<thead>
+<tr>
+<th> Ruby のバージョン </th>
+<th> <code>parallel</code>                </th>
+<th> <code>sequential</code>              </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 2.1.2             </td>
+<td> 3,546,816.4 (±14.0%) i/s </td>
+<td> 4,685,811.3 (±17.1%) i/s </td>
+</tr>
+<tr>
+<td> 1.9.3             </td>
+<td> 4,913,857.6 (±3.3%) i/s  </td>
+<td> 5,871,697.0 (±1.7%) i/s  </td>
+</tr>
+<tr>
+<td> 1.8.7             </td>
+<td> 1,042,336.0 (±3.8%) i/s  </td>
+<td> 1,265,156.7 (±3.9%) i/s  </td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>Array#each_with_index vs. while loops</h3>
+
+<h4>使用したコード</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">__benchmark__</span><span class="p">(</span>
+</span><span class='line'>  <span class="ss">each_with_index</span><span class="p">:</span> <span class="nb">proc</span><span class="p">{</span> <span class="n">array</span><span class="o">.</span><span class="n">each_with_index</span><span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">|</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span> <span class="p">}</span> <span class="p">},</span>
+</span><span class='line'>  <span class="k">while</span><span class="p">:</span>           <span class="nb">proc</span><span class="p">{</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">array</span><span class="o">.</span><span class="n">size</span><span class="p">;</span> <span class="n">i</span> <span class="o">+</span> <span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">;</span> <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span> <span class="k">end</span> <span class="p">}</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>結果</h4>
+
+<table>
+<thead>
+<tr>
+<th> Ruby のバージョン </th>
+<th> <code>each_with_index</code>        </th>
+<th> <code>while</code>                   </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 2.1.2             </td>
+<td> 987,188.3 (±8.8%) i/s   </td>
+<td> 1,993,586.8 (±14.9%) i/s </td>
+</tr>
+<tr>
+<td> 1.9.3             </td>
+<td> 1,570,283.7 (±2.5%) i/s </td>
+<td> 2,631,052.1 (±3.4%) i/s  </td>
+</tr>
+<tr>
+<td> 1.8.7             </td>
+<td> 339,777.5 (±1.9%) i/s   </td>
+<td> 391,679.9 (±1.8%) i/s    </td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>まとめ</h2>
+
+<p>だいたいは元記事と同じ結果になりました。ただ、</p>
+
+<ul>
+<li><code>Block</code> vs. <code>Symbol#to_proc</code> では 1.8.7 を使うと元記事と逆の結果</li>
+<li><code>Hash#merge</code> は <code>Hash#merge!</code> と比べて <code>dup</code> でオブジェクトを生成する分が遅そう</li>
+<li><code>Hash#fetch</code> vs. <code>Hash#fetch</code> with block は第1引数に与えたキーが見つからないようにすると、ほとんど変わらないか元記事と逆の結果</li>
+</ul>
+
+
+<p>ということもわかりました。まぁ2個目と3個目は予想できることですが……。</p>
+
+<p>個人的には <code>Block</code> vs. <code>Symbol#to_proc</code> に Ruby のバージョンによる違いが出るというのが興味深かったです。今度なぜ差が出るのか調べてみようと思います（実装が変わったのかな？　1.9 から C 実装になったとか）。それ以外のところも、なぜ処理速度に差が出るのか理解できるとプログラマとしてレベルアップできそうです。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[『パーフェクト Ruby on Rails』を読んだ]]></title>

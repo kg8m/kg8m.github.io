@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | きにきじ]]></title>
   <link href="http://kg8m.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://kg8m.github.io/"/>
-  <updated>2014-10-16T22:04:17+09:00</updated>
+  <updated>2014-10-16T22:07:19+09:00</updated>
   <id>http://kg8m.github.io/</id>
   <author>
     <name><![CDATA[kg8m]]></name>
@@ -12,6 +12,480 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Writing Fast Ruby を検証してみた]]></title>
+    <link href="http://kg8m.github.io/blog/2014/10/16/test-writing-fast-ruby/"/>
+    <updated>2014-10-16T22:00:00+09:00</updated>
+    <id>http://kg8m.github.io/blog/2014/10/16/test-writing-fast-ruby</id>
+    <content type="html"><![CDATA[<p>少し前に <a href="http://blog.mah-lab.com/2014/09/27/writing-fast-ruby/">Writing Fast Rubyというスライドが良い | mah365</a> という記事が話題になっていました。内容は <a href="https://speakerdeck.com/sferik/writing-fast-ruby">Writing Fast Ruby</a> というスライドの紹介で、リーダビリティを維持しながらパフォーマンスを出せるよという話です。おもしろいなーと流してしまってもよかったのですが、どうせなら手元でも確かめてみようというのが今回のこの記事です。</p>
+
+<!-- more -->
+
+
+<h2>使った Ruby のバージョン</h2>
+
+<p>最初は普段よく使っている Ruby 1.8.6-p369 でやってみたんですが（バージョンアップしたいですがなかなかリソースを確保できず……）、一部スライドと違う結果が出たので、バージョンの違いがあるのかもということで以下のバージョンで試してみました。</p>
+
+<ul>
+<li>Ruby 1.8.7-p375</li>
+<li>Ruby 1.9.3-p545</li>
+<li>Ruby 2.1.2</li>
+</ul>
+
+
+<h2>便利メソッドを定義</h2>
+
+<p>毎回計測用のコードを書くのがだるいので、次のような便利メソッドを定義しました。</p>
+
+<pre><code class="ruby">require "benchmark/ips"
+
+def __benchmark__(labels_and_procs)
+  Benchmark.ips do |x|
+    labels_and_procs.each do |label, proc|
+      x.report("#{label}:"){ proc.call }
+    end
+  end
+end
+</code></pre>
+
+<p>この記事で <code>__benchmark__</code> というメソッド呼び出しが出てきたらこれのことです。</p>
+
+<p><a href="https://github.com/evanphx/benchmark-ips">benchmark-ips gem</a> いいですね。普通の Benchmark だと、何回処理を繰り返すかを決めないといけませんが、適切な回数がいまいちわからなかったりします。その点、benchmark-ips なら1秒間に何回処理できたかという評価なのでやりやすいです。</p>
+
+<h2>比較結果</h2>
+
+<h3>Proc#call vs. yield</h3>
+
+<h4>使用したコード</h4>
+
+<pre><code class="ruby">def slow(&amp;block)
+  block.call
+end
+
+def fast
+  yield
+end
+
+__benchmark__(
+  block: proc{ slow{ 1 + 1 } },
+  yield: proc{ fast{ 1 + 1 } }
+)
+</code></pre>
+
+<h4>結果</h4>
+
+<table>
+<thead>
+<tr>
+<th> Ruby のバージョン </th>
+<th> <code>block</code>                  </th>
+<th> <code>yield</code>                  </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 2.1.2             </td>
+<td> 1,104,005.6 (±1.9%) i/s </td>
+<td> 4,310,444.0 (±5.2%) i/s </td>
+</tr>
+<tr>
+<td> 1.9.3             </td>
+<td> 1,212,795.3 (±9.9%) i/s </td>
+<td> 4,189,680.6 (±1.5%) i/s </td>
+</tr>
+<tr>
+<td> 1.8.7             </td>
+<td> 273,890.7 (±5.4%) i/s   </td>
+<td> 955,918.6 (±3.7%) i/s   </td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>Block vs. Symbol#to_proc</h3>
+
+<h4>使用したコード</h4>
+
+<pre><code class="ruby">__benchmark__(
+  block:   proc{ (1 .. 100).map{|i| i.to_s } },
+  to_proc: proc{ (1 .. 100).map(&amp;:to_s) }
+)
+</code></pre>
+
+<h4>結果</h4>
+
+<table>
+<thead>
+<tr>
+<th> Ruby のバージョン </th>
+<th> <code>block</code>               </th>
+<th> <code>to_proc</code>             </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 2.1.2             </td>
+<td> 62,191.0 (±2.3%) i/s </td>
+<td> 71,240.2 (±3.1%) i/s </td>
+</tr>
+<tr>
+<td> 1.9.3             </td>
+<td> 61,063.0 (±2.3%) i/s </td>
+<td> 74,238.2 (±1.4%) i/s </td>
+</tr>
+<tr>
+<td> 1.8.7             </td>
+<td> 25,609.1 (±1.6%) i/s </td>
+<td> 18,905.6 (±3.1%) i/s </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>1.8.7 では逆の結果になりました。</p>
+
+<h3>Enumerable#map and Array#flatten vs. Enumerable#flat_map</h3>
+
+<h4>使用したコード</h4>
+
+<pre><code class="ruby">__benchmark__(
+  map_then_flatten: proc{ (1 .. 100).map{|i| [i.to_s, i] }.flatten },
+  flat_map:         proc{ (1 .. 100).flat_map{|i| [i.to_s, i] } }
+)
+</code></pre>
+
+<h4>結果</h4>
+
+<table>
+<thead>
+<tr>
+<th> Ruby のバージョン </th>
+<th> <code>map_then_flatten</code>    </th>
+<th> <code>flat_map</code>            </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 2.1.2             </td>
+<td> 27,736.4 (±1.4%) i/s </td>
+<td> 42,792.6 (±0.9%) i/s </td>
+</tr>
+<tr>
+<td> 1.9.3             </td>
+<td> 27,390.5 (±1.5%) i/s </td>
+<td> 42,583.9 (±2.7%) i/s </td>
+</tr>
+<tr>
+<td> 1.8.7             </td>
+<td> -                     </td>
+<td> -                     </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>1.8.7 には <code>Enumerable#flat_map</code> がないので対象外としました。</p>
+
+<h3>Hash#merge vs. Hash#merge!</h3>
+
+<h4>使用したコード</h4>
+
+<pre><code class="ruby">__benchmark__(
+  merge:               proc{ [1,2,3,4,5].inject({}){|h, e| h.merge(e =&gt; e) } },
+  merge_bang:          proc{ [1,2,3,4,5].inject({}){|h, e| h.merge!(e =&gt; e) } },
+  merge_bang_with_dup: proc{ [1,2,3,4,5].inject({}){|h, e| _h = h.dup; _h.merge!(e =&gt; e) } }
+)
+</code></pre>
+
+<p><code>Hash#merge</code> と <code>Hash#merge!</code> ではオブジェクト生成分のコストが違うのは当たり前なので、比較のためにわざわざ <code>dup</code> してから <code>merge!</code> するケースも加えてみました。</p>
+
+<h4>結果</h4>
+
+<table>
+<thead>
+<tr>
+<th> Ruby のバージョン </th>
+<th> <code>merge</code>                </th>
+<th> <code>merge_bang</code>           </th>
+<th> <code>merge_bang_with_dup</code>  </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 2.1.2             </td>
+<td> 135,788.7 (±3.4%) i/s </td>
+<td> 274,784.1 (±3.8%) i/s </td>
+<td> 135,854.6 (±3.1%) i/s </td>
+</tr>
+<tr>
+<td> 1.9.3             </td>
+<td> 121,393.1 (±5.4%) i/s </td>
+<td> 216,329.6 (±7.2%) i/s </td>
+<td> 118,098.3 (±3.2%) i/s </td>
+</tr>
+<tr>
+<td> 1.8.7             </td>
+<td> 95,286.3 (±3.4%) i/s  </td>
+<td> 147,247.5 (±3.8%) i/s </td>
+<td> 88,805.2 (±3.6%) i/s  </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>やはり <code>merge</code> と <code>dup</code> + <code>merge!</code> は同じくらいですね。<code>Hash#merge</code> が内部的に <code>dup</code> しているので、その分のコストが影響しているんだと思います。</p>
+
+<h3>Hash#merge! vs. Hash#[]=</h3>
+
+<h4>使用したコード</h4>
+
+<pre><code class="ruby">__benchmark__(
+  :merge! =&gt; proc{ [1,2,3,4,5].each_with_object({}){|e, h| h.merge!(e =&gt; e) } },
+  :[]=    =&gt; proc{ [1,2,3,4,5].each_with_object({}){|e, h| h[e] = e } }
+)
+</code></pre>
+
+<p>1.8.7 では <code>Enumerable#each_with_object</code> が使えないので、次のモンキーパッチをあてました。</p>
+
+<pre><code class="ruby"># http://apidock.com/rails/Enumerable/each_with_object
+Enumerable.module_eval do
+  def each_with_object(memo)
+    return to_enum :each_with_object, memo unless block_given?
+
+    each do |element|
+      yield element, memo
+    end
+
+    memo
+  end
+end
+</code></pre>
+
+<h4>結果</h4>
+
+<table>
+<thead>
+<tr>
+<th> Ruby のバージョン </th>
+<th> <code>merge!</code>               </th>
+<th> <code>[]=</code>                  </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 2.1.2             </td>
+<td> 280,923.3 (±4.8%) i/s </td>
+<td> 682,806.6 (±3.4%) i/s </td>
+</tr>
+<tr>
+<td> 1.9.3             </td>
+<td> 217,844.0 (±5.6%) i/s </td>
+<td> 486,892.0 (±7.4%) i/s </td>
+</tr>
+<tr>
+<td> 1.8.7             </td>
+<td> 133,301.3 (±3.8%) i/s </td>
+<td> 212,748.6 (±1.7%) i/s </td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>Hash#fetch vs. Hash#fetch with block</h3>
+
+<h4>使用したコード</h4>
+
+<pre><code class="ruby">__benchmark__(
+  arg_found:       proc{ { :rails =&gt; :club }.fetch(:rails, (0 .. 9).to_a) },
+  block_found:     proc{ { :rails =&gt; :club }.fetch(:rails){ (0 .. 9).to_a } }
+  arg_not_found:   proc{ { :rails =&gt; :club }.fetch(:rail, (0 .. 9).to_a) },
+  block_not_found: proc{ { :rails =&gt; :club }.fetch(:rail){ (0 .. 9).to_a } }
+)
+</code></pre>
+
+<p><code>Hash#fetch</code> は第1引数に与えたキーが見つかれば対応するバリューを、見つからなければ第2引数またはブロックの結果を返します。元記事ではキーが見つかるケースしかなかったので、見つからないケースも試してみました。</p>
+
+<h4>結果</h4>
+
+<table>
+<thead>
+<tr>
+<th> Ruby のバージョン </th>
+<th> <code>arg_found</code>            </th>
+<th> <code>block_found</code>             </th>
+<th> <code>arg_not_found</code>         </th>
+<th> <code>block_not_found</code>       </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 2.1.2             </td>
+<td> 750,170.2 (±4.5%) i/s </td>
+<td> 1,391,370.0 (±7.9%) i/s  </td>
+<td> 546,238.9 (±12.7%) i/s </td>
+<td> 562,627.9 (±15.0%) i/s </td>
+</tr>
+<tr>
+<td> 1.9.3             </td>
+<td> 737,928.4 (±5.2%) i/s </td>
+<td> 1,494,539.6 (±10.2%) i/s </td>
+<td> 741,229.0 (±5.0%) i/s  </td>
+<td> 705,287.3 (±5.5%) i/s  </td>
+</tr>
+<tr>
+<td> 1.8.7             </td>
+<td> 449,828.5 (±2.4%) i/s </td>
+<td> 770,142.5 (±3.8%) i/s    </td>
+<td> 447,578.8 (±2.4%) i/s  </td>
+<td> 419,708.7 (±3.6%) i/s  </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>キーが見つからなかったときの代替値をブロックで与える場合、キーが見つかればブロックの処理が評価されないので、必ず評価されてしまう第2引数に与える場合よりも高速です。</p>
+
+<p>ただ、キーが見つからないように第1引数を与えると結果は変わります。ほとんど変わらないか、キーが見つかるケースと逆の結果になります。ブロックの処理を評価する分のコストが影響しているのでしょうか。</p>
+
+<h3>String#gsub vs. String#tr</h3>
+
+<h4>使用したコード</h4>
+
+<pre><code class="ruby">__benchmark__(
+  gsub: proc{ "Hello world. Today is a happy day!!".gsub(" ", "_") },
+  tr:   proc{ "Hello world. Today is a happy day!!".tr(" ", "_") }
+)
+</code></pre>
+
+<h4>結果</h4>
+
+<table>
+<thead>
+<tr>
+<th> Ruby のバージョン </th>
+<th> <code>gsub</code>                 </th>
+<th> <code>tr</code>                     </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 2.1.2             </td>
+<td> 294,032.8 (±1.7%) i/s </td>
+<td> 1,177,266.7 (±2.3%) i/s </td>
+</tr>
+<tr>
+<td> 1.9.3             </td>
+<td> 315,169.3 (±1.7%) i/s </td>
+<td> 1,213,505.5 (±2.1%) i/s </td>
+</tr>
+<tr>
+<td> 1.8.7             </td>
+<td> 214,505.2 (±2.1%) i/s </td>
+<td> 781,031.4 (±4.6%) i/s   </td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>Parallel vs. sequential assignment</h3>
+
+<h4>使用したコード</h4>
+
+<pre><code class="ruby">__benchmark__(
+  parallel:   proc{ a, b = 1, 2 },
+  sequential: proc{ a = 1; b = 2 }
+)
+</code></pre>
+
+<h4>結果</h4>
+
+<table>
+<thead>
+<tr>
+<th> Ruby のバージョン </th>
+<th> <code>parallel</code>                </th>
+<th> <code>sequential</code>              </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 2.1.2             </td>
+<td> 3,546,816.4 (±14.0%) i/s </td>
+<td> 4,685,811.3 (±17.1%) i/s </td>
+</tr>
+<tr>
+<td> 1.9.3             </td>
+<td> 4,913,857.6 (±3.3%) i/s  </td>
+<td> 5,871,697.0 (±1.7%) i/s  </td>
+</tr>
+<tr>
+<td> 1.8.7             </td>
+<td> 1,042,336.0 (±3.8%) i/s  </td>
+<td> 1,265,156.7 (±3.9%) i/s  </td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>Array#each_with_index vs. while loops</h3>
+
+<h4>使用したコード</h4>
+
+<pre><code class="ruby">array = [1,2,3,4,5]
+
+__benchmark__(
+  each_with_index: proc{ array.each_with_index{|i, j| i + j } },
+  while:           proc{ i = 0; while i &lt; array.size; i + array[i]; i += 1; end }
+)
+</code></pre>
+
+<h4>結果</h4>
+
+<table>
+<thead>
+<tr>
+<th> Ruby のバージョン </th>
+<th> <code>each_with_index</code>        </th>
+<th> <code>while</code>                   </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 2.1.2             </td>
+<td> 987,188.3 (±8.8%) i/s   </td>
+<td> 1,993,586.8 (±14.9%) i/s </td>
+</tr>
+<tr>
+<td> 1.9.3             </td>
+<td> 1,570,283.7 (±2.5%) i/s </td>
+<td> 2,631,052.1 (±3.4%) i/s  </td>
+</tr>
+<tr>
+<td> 1.8.7             </td>
+<td> 339,777.5 (±1.9%) i/s   </td>
+<td> 391,679.9 (±1.8%) i/s    </td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>まとめ</h2>
+
+<p>だいたいは元記事と同じ結果になりました。ただ、</p>
+
+<ul>
+<li><code>Block</code> vs. <code>Symbol#to_proc</code> では 1.8.7 を使うと元記事と逆の結果</li>
+<li><code>Hash#merge</code> は <code>Hash#merge!</code> と比べて <code>dup</code> でオブジェクトを生成する分が遅そう</li>
+<li><code>Hash#fetch</code> vs. <code>Hash#fetch</code> with block は第1引数に与えたキーが見つからないようにすると、ほとんど変わらないか元記事と逆の結果</li>
+</ul>
+
+
+<p>ということもわかりました。まぁ2個目と3個目は予想できることですが……。</p>
+
+<p>個人的には <code>Block</code> vs. <code>Symbol#to_proc</code> に Ruby のバージョンによる違いが出るというのが興味深かったです。今度なぜ差が出るのか調べてみようと思います（実装が変わったのかな？　1.9 から C 実装になったとか）。それ以外のところも、なぜ処理速度に差が出るのか理解できるとプログラマとしてレベルアップできそうです。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[『パーフェクト Ruby on Rails』を読んだ]]></title>
