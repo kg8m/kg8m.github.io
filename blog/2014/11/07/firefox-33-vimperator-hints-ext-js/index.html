@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Firefox 33 で Vimperator の hints-ext.js を使う - きにきじ</title>
+  <meta name="author" content="kg8m">
+
+  
+  <meta name="description" content="Contents
+解決策 ※この記事は、Firefox を使っていない人、Vimperator を使っていない人、hints-ext.js プラグインを使っていない人、Firefox 33 x Vimperator x hints-ext.js が正常に動いている人にはまったく価値のない記事です &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kg8m.github.io/blog/2014/11/07/firefox-33-vimperator-hints-ext-js">
+  <link href="/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="きにきじ" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--- MathJax Configuration -->
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<!--- smoothAnchor -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+<script>!jQuery.easing["jswing"] && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.easing.1.3.min.js"%3E%3C/script%3E'))</script>
+<script src="/javascripts/libs/jquery.smoothAnchor.min.js" type="text/javascript"></script>
+
+  
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">きにきじ</a></h1>
+  
+    <h2>今日の気になる記事とか学びとか</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+<ul class="subscription">
+  <li><a href="https://github.com/kg8m" rel="subscribe-github" title="@kg8m on GitHub">GitHub</a></li>
+</ul>
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kg8m.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">Firefox 33 で Vimperator の hints-ext.js を使う</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-07T10:33:00+09:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:33</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://kg8m.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><div id="toc-container"><div class="toc" id="toc">
+<div id="toctitle"><h3>Contents</h3></div>
+<ul><li class="toc_level-1 toc_section-1"><a href="#tocAnchor-1-1"><span class="toctext">解決策</span></a></li></ul>
+</div></div>
+<p>※この記事は、Firefox を使っていない人、Vimperator を使っていない人、<a href="https://github.com/caisui/vimperator/blob/master/plugin/hints-ext.js">hints-ext.js</a> プラグインを使っていない人、Firefox 33 x Vimperator x hints-ext.js が正常に動いている人にはまったく価値のない記事です。そっとブラウザのタブを閉じてください</p>
+
+<p>少し前に Firefox 33 がリリースされたのでいつものようにバージョンアップすると、<code>f</code> キーを押しても Vimperator のヒントが表示されないという問題が生じました。プラグインの hints-ext.js が原因っぽいことはわかったのですが解決策がわからなかったのでしばらく 32 のまま使っていました。ですがセキュリティ的にもよろしくないし気持ち悪いのでちゃんと調べて解決しました。</p>
+
+<!-- more -->
+
+
+<h2 id="tocAnchor-1-1">解決策</h2>
+
+<p>ググると割とすぐに見つかりました。</p>
+
+<blockquote class="twitter-tweet" lang="en">
+<p><a href="https://twitter.com/Jaguaster">@Jaguaster</a>  util.evaluateXPath が  for in で 回せなくなったことが原因だと 思うので 最新版 vimpの公開 or 自buildで大丈夫だと思います(未確認</p>— caisui (@rincaisui) <a href="https://twitter.com/rincaisui/status/522167205467668480">October 14, 2014</a>
+</blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>なるほど、<a href="https://addons.mozilla.org/ja/firefox/addon/vimperator/">Add-ons for Firefox で提供されている Vimperator</a> ではダメで、自分でビルドしないといけないみたいです。</p>
+
+<p>ビルドのやり方は <a href="http://www.vimperator.org/developerinfo">Developer Info - vimperator labs</a> に載っているので書いてあるのに従います。ちなみに環境は Mac OX X 10.9.5 です。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr>
+<td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td>
+<td class="code"><pre><code class=""><span class="line"># どこでも好きなディレクトリでどうぞ
+</span><span class="line">% cd ~/src/</span></code></pre></td>
+</tr></table></div></figure></notextile></div>
+
+
+
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr>
+<td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td>
+<td class="code"><pre><code class=""><span class="line">% git clone https://github.com/vimperator/vimperator-labs/
+</span><span class="line">Cloning into 'vimperator-labs'...
+</span><span class="line">remote: Counting objects: 31378, done.
+</span><span class="line">remote: Compressing objects: 100% (10/10), done.
+</span><span class="line">remote: Total 31378 (delta 2), reused 2 (delta 0)
+</span><span class="line">Receiving objects: 100% (31378/31378), 6.63 MiB | 1.39 MiB/s, done.
+</span><span class="line">Resolving deltas: 100% (23422/23422), done.
+</span><span class="line">Checking connectivity... done.</span></code></pre></td>
+</tr></table></div></figure></notextile></div>
+
+
+
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr>
+<td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td>
+<td class="code"><pre><code class=""><span class="line">% cd vimperator-labs/vimperator/</span></code></pre></td>
+</tr></table></div></figure></notextile></div>
+
+
+
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr>
+<td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td>
+<td class="code"><pre><code class=""><span class="line">% make xpi
+</span><span class="line">Building XPI...
+</span><span class="line">Update chrome.manifest for paths used inside the XPI...
+</span><span class="line">Replacing ###VERSION### and ###DATE### tags
+</span><span class="line">Packaging up vimperator-3.8.2.xpi
+</span><span class="line">SUCCESS: ../downloads/vimperator-3.8.2.xpi</span></code></pre></td>
+</tr></table></div></figure></notextile></div>
+
+
+<p>xpi ファイルが <code>../downloads</code> ディレクトリ（上の例で言えば <code>~/src/vimperator-labs/downloads</code>）にできているので、Firefox で読み込んでインストールすれば OK です。いやー快適です。caisui さんに改めて感謝。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+
+
+  <span class="byline author vcard">Authored by <span class="fn">
+  
+    kg8m
+  
+  </span></span>
+
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-11-07T10:33:00+09:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:33</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/firefox/'>firefox</a>, <a class='category' href='/blog/categories/vimperator/'>vimperator</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/10/16/test-writing-fast-ruby/" title="Previous Post: Writing Fast Ruby を検証してみた">&laquo; Writing Fast Ruby を検証してみた</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - kg8m -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kg8m-github-io';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kg8m.github.io/blog/2014/11/07/firefox-33-vimperator-hints-ext-js/';
+        var disqus_url = 'http://kg8m.github.io/blog/2014/11/07/firefox-33-vimperator-hints-ext-js/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

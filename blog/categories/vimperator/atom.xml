@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: vimperator | きにきじ]]></title>
+  <link href="http://kg8m.github.io/blog/categories/vimperator/atom.xml" rel="self"/>
+  <link href="http://kg8m.github.io/"/>
+  <updated>2014-11-07T23:08:22+09:00</updated>
+  <id>http://kg8m.github.io/</id>
+  <author>
+    <name><![CDATA[kg8m]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Firefox 33 で Vimperator の hints-ext.js を使う]]></title>
+    <link href="http://kg8m.github.io/blog/2014/11/07/firefox-33-vimperator-hints-ext-js/"/>
+    <updated>2014-11-07T10:33:00+09:00</updated>
+    <id>http://kg8m.github.io/blog/2014/11/07/firefox-33-vimperator-hints-ext-js</id>
+    <content type="html"><![CDATA[<p>※この記事は、Firefox を使っていない人、Vimperator を使っていない人、<a href="https://github.com/caisui/vimperator/blob/master/plugin/hints-ext.js">hints-ext.js</a> プラグインを使っていない人、Firefox 33 x Vimperator x hints-ext.js が正常に動いている人にはまったく価値のない記事です。そっとブラウザのタブを閉じてください</p>
+
+<p>少し前に Firefox 33 がリリースされたのでいつものようにバージョンアップすると、<code>f</code> キーを押しても Vimperator のヒントが表示されないという問題が生じました。プラグインの hints-ext.js が原因っぽいことはわかったのですが解決策がわからなかったのでしばらく 32 のまま使っていました。ですがセキュリティ的にもよろしくないし気持ち悪いのでちゃんと調べて解決しました。</p>
+
+<!-- more -->
+
+
+<h2>解決策</h2>
+
+<p>ググると割とすぐに見つかりました。</p>
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/Jaguaster">@Jaguaster</a>  util.evaluateXPath が  for in で 回せなくなったことが原因だと 思うので 最新版 vimpの公開 or 自buildで大丈夫だと思います(未確認</p>&mdash; caisui (@rincaisui) <a href="https://twitter.com/rincaisui/status/522167205467668480">October 14, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>なるほど、<a href="https://addons.mozilla.org/ja/firefox/addon/vimperator/">Add-ons for Firefox で提供されている Vimperator</a> ではダメで、自分でビルドしないといけないみたいです。</p>
+
+<p>ビルドのやり方は <a href="http://www.vimperator.org/developerinfo">Developer Info - vimperator labs</a> に載っているので書いてあるのに従います。ちなみに環境は Mac OX X 10.9.5 です。</p>
+
+<pre><code># どこでも好きなディレクトリでどうぞ
+% cd ~/src/
+</code></pre>
+
+<pre><code>% git clone https://github.com/vimperator/vimperator-labs/
+Cloning into 'vimperator-labs'...
+remote: Counting objects: 31378, done.
+remote: Compressing objects: 100% (10/10), done.
+remote: Total 31378 (delta 2), reused 2 (delta 0)
+Receiving objects: 100% (31378/31378), 6.63 MiB | 1.39 MiB/s, done.
+Resolving deltas: 100% (23422/23422), done.
+Checking connectivity... done.
+</code></pre>
+
+<pre><code>% cd vimperator-labs/vimperator/
+</code></pre>
+
+<pre><code>% make xpi
+Building XPI...
+Update chrome.manifest for paths used inside the XPI...
+Replacing ###VERSION### and ###DATE### tags
+Packaging up vimperator-3.8.2.xpi
+SUCCESS: ../downloads/vimperator-3.8.2.xpi
+</code></pre>
+
+<p>xpi ファイルが <code>../downloads</code> ディレクトリ（上の例で言えば <code>~/src/vimperator-labs/downloads</code>）にできているので、Firefox で読み込んでインストールすれば OK です。いやー快適です。caisui さんに改めて感謝。</p>
+]]></content>
+  </entry>
+  
+</feed>
